@@ -8,7 +8,7 @@ body {
 }
 
 :root {
-  --tamanho-header: 80px;
+  --tamanho-header: 100px;
   --tamanho-banner: calc(100vh - var(--tamanho-header) - var(--tamanho-footer) - 2px);
   --tamanho-simulador: calc(100vh - var(--tamanho-header) - var(--tamanho-footer) - 2px);
   --tamanho-login: calc(100vh - var(--tamanho-header) - var(--tamanho-footer) - 2px);
@@ -43,11 +43,18 @@ body {
 
 .navbar {
   width: 300px;
+  height: 90%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   list-style: none;
   color: #e3b062;
+}
+
+.navbar button{
+  background-image: url('../assets/imgs-Mitos/Botão.png');
+  
+  height: 100%;
 }
 
 .titulo {
