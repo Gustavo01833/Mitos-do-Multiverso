@@ -1,31 +1,34 @@
 CREATE DATABASE mitosMultiverso;
 USE mitosMultiverso;
 
+-- drop database mitosMultiverso;
 CREATE TABLE usuario(
 	idUsuario int primary key auto_increment,
-	nome varchar(45),
-    senha varchar(45),
-    email varchar(255),
+	nome varchar(45) not null,
+    senha varchar(45) not null,
+    email varchar(255) not null,
     dataCriacao timestamp not null default current_timestamp  
 );
 
 CREATE TABLE sistemas(
 	idSistemas int primary key auto_increment,
-    nome varchar(45)
+    nome varchar(45) not null
 );
 
 CREATE TABLE sala(
 	idSala int primary key auto_increment,
-    fkDono int,
-    fkSistema int,
-    nome varchar(45),
-    frequencia varchar(45),
-    visibilidade varchar(45),
+    fkDono int not null,
+    fkSistema int not null,
+    nome varchar(45) not null,
+    frequencia varchar(45) not null,
+    visibilidade varchar(45) not null,
     dataCriacao timestamp not null default current_timestamp ,
-    descricao varchar(200),
-    maxJogadores tinyint,
-	senha varchar(45),
-    CONSTRAINT tiposVisibilidade CHECK (visibilidade IN('Público', 'Privado')),    
+    descricao varchar(200) not null,
+    maxJogadores tinyint not null,
+	senha varchar(45) null,
+    CONSTRAINT tiposVisibilidade CHECK (visibilidade IN('Público', 'Privado')),   
+    CONSTRAINT tiposFrequencia CHECK (frequencia IN('Semanal', 'Mensal', 'Diário', 'Anual', 'Esporádico')),
+    
     CONSTRAINT fkSalaDono FOREIGN KEY (fkDono) REFERENCES usuario(idUsuario),
     CONSTRAINT fkSalaSistema FOREIGN KEY (fkSistema) REFERENCES sistemas(idSistemas)
 );
@@ -55,8 +58,12 @@ INSERT INTO sistemas (nome) VALUES
     SELECT * FROM sistemas;
     SELECT * FROM sala;
     
--- INSERT INTO sala (fkDono, fkSistema, nome, frequencia, visibilidade, descricao, maxJogadores)
-
+INSERT INTO sala (fkDono, fkSistema, nome, frequencia, visibilidade, descricao, maxJogadores, senha) VALUES
+	(1, 1, "Era uma Vez", 'Semanal', 'Público', 'Era uma vez.. O que mesmo? Como vim parar aqui?', 5, 'bobo'),
+	(1, 2, "Camomila", 'Diário', 'Público', 'Carmomila', 4, 'bobo'),
+    (2, 1, "Aventuras em Baixo mar", 'Anual', 'Privado', 'Era uma vez.. O que mesmo? Como vim parar aqui?', 5, 'bobo');
+    
+	
 
 
 
