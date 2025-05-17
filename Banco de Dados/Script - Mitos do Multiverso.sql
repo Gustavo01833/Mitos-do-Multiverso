@@ -42,6 +42,18 @@ CREATE TABLE participacao(
     
 );
 
+CREATE TABLE personagem(
+	idPersonagem int primary key,
+    nome varchar(45) not null,
+    vida int null,
+    fkSala int,
+    fkSistema int,
+    fkUsuario int,
+    CONSTRAINT PersonagemSala FOREIGN KEY (fkSala) REFERENCES sala(idSala),
+    CONSTRAINT PersonagemSistema FOREIGN KEY (fkSistema) REFERENCES sistemas(idSistemas),
+    CONSTRAINT PersonagemUsuario FOREIGN KEY (fkUsuario) REFERENCES usuario(idUsuario)
+);
+
 
 INSERT INTO usuario (nome, senha, email) VALUES
 	('Bilt', '123456', 'bilt@gmail.com'),
@@ -63,9 +75,18 @@ INSERT INTO sala (fkDono, fkSistema, nome, frequencia, visibilidade, descricao, 
 	(1, 2, "Camomila", 'Diário', 'Público', 'Carmomila', 4, 'bobo'),
     (2, 1, "Aventuras em Baixo mar", 'Anual', 'Privado', 'Era uma vez.. O que mesmo? Como vim parar aqui?', 5, 'bobo');
     
-	
+SELECT * FROM sala;    
+
+INSERT INTO participacao(pkSala, pkUsuario) VALUES
+	(1,2),
+    (1,3),
+	(2,1),
+	(2,3);
+
+select * from participacao;
 
 
+INSERT INTO personagem (nome,vida
 
 
 
