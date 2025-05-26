@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <div id="div_cardo" class="card">
+        <div id="div_qtdUsuario">
+            <span>
+                Quantidade de usuários:
+            </span>
+        </div>
+        <br>
+        <div id="div_nome">
+            <span>
+                Nome:
+            </span>
+        </div>
+        <br>
+        <div id="div_freq">
+            <span>
+                Frequência:
+            </span>
+        </div>
+        <br>
+        <div id="div_sis">
+            <span>
+                Sistema:
+            </span>
+        </div>
+        <br>
+        <div id="div_visi">
+            <span>
+                Visibilidade:
+            </span>
+        </div>
+        <br>
+    </div>
+
+
+    
+</body>
+</html>
+
+<script defer>
+
+    window.onload = buscarSalas;
+    
+
+    function buscarSalas(){
+        fetch("/salas", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                return resposta.json().then (function (dados) {
+
+                    // console.log(resposta);
+                    console.log("Dados recebidos listagem: ", JSON.stringify(resposta));
+
+                    // resposta = resposta.json()
+
+                    for(var i = 0; i < dados.length; i++){
+                        console.log('MaximoJogadores:', dados[i.MaximoJogadores])
+                        console.log('nome:', dados[i.nome])
+                        console.log('frequencia:', dados[i.frequencia])
+                        console.log('sistema:', dados[i.sistema])
+                        console.log('visibilidade:', dados[i.visibilidade])
+
+                        document.getElementById('div_qtdUsuario').innerHTML += `<br><span>${dados[i].MaximoJogadores}</span>`;
+                        document.getElementById('div_nome').innerHTML += `<span>${dados[i].nome}</span>`;
+                        document.getElementById('div_freq').innerHTML += `<span>${dados[i].frequencia}</span>`;
+                        document.getElementById('div_sis').innerHTML += `<span>${dados[i].sistema}</span>`;
+                        document.getElementById('div_visi').innerHTML += `<span>${dados[i].visibilidade}</span>
+                        <br>`
+                        ;
+                    }
+                });
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+
+    }
+
+
+</script>
