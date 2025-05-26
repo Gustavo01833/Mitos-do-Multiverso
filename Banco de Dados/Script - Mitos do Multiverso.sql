@@ -1,4 +1,4 @@
-CREATE DATABASE mitosMultiverso;
+-- CREATE DATABASE mitosMultiverso;
 USE mitosMultiverso;
 
 -- drop database mitosMultiverso;
@@ -126,8 +126,23 @@ INSERT INTO personagem (nome,vida, fkSala,fkSistema,fkUsuario) VALUES
 SELECT * FROM personagem;
 
 SELECT * FROM sala;
+SET sql_mode = ' ' ;
+
 
 BEGIN; -- Listagem de Salas
+
+SELECT 
+  CONCAT(COUNT(par.pkUsuario), '/', s.MaxJogadores) AS MaximoJogadores,
+  s.nome,
+  s.frequencia,
+  sis.nome AS sistema,
+  s.visibilidade
+FROM sala s
+JOIN sistemas sis ON s.fkSistema = sis.idSistemas
+LEFT JOIN participacao par ON s.idSala = par.pkSala
+GROUP BY s.idSala, s.nome, s.frequencia, sis.nome, s.visibilidade, s.MaxJogadores
+HAVING 
+count(par.pkUsuario) > 0;
 
 	-- LISTAGEM DE SALAS NO GERAL
 SELECT concat((select count(par.pkUsuario) FROM 
@@ -146,8 +161,8 @@ SELECT concat((select count(par.pkUsuario) FROM
            ON s.idSala = par.pkSala
            JOIN usuario u
            ON par.pkUsuario = u.idUsuario
-           GROUP BY s.idSala ;
-           
+           GROUP BY s.idSala;
+
 	-- LISTAGEM DE SALA PÚBLICA
 SELECT concat((select count(par.pkUsuario) FROM 
              participacao JOIN usuario
@@ -191,7 +206,7 @@ SELECT concat((select count(par.pkUsuario) FROM
            HAVING 
            s.visibilidade = 'Privado';
            
-           
+         
 -- LISTAGEM DE SALAS QUE O USUARIO ESPECÍFICO PARTICIPA
     
 	SELECT concat(
@@ -200,7 +215,6 @@ SELECT concat((select count(par.pkUsuario) FROM
 			ON u.idUsuario = par.pkUsuario
             JOIN sala s
             ON par.pkSala = s.idSala group by s.idSala) ,'/',s.MaxJogadores) as MaximoJogadores,
-            
 		   s.nome,
            s.frequencia,
            sis.nome,
@@ -377,10 +391,10 @@ LEFT JOIN (
 ) AS top4 ON sis.nome = top4.nome
 GROUP BY sistema
 ORDER BY 
-porcentagem_uso DESC;
-    
+porcentagem_uso, sistema DESC;
 
-		
 END;
-    select * from usuario;
-    
+
+select * from usuario; 
+
+SELECT count(idUsuario) from usuario;
