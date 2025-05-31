@@ -4,7 +4,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: black;
+  /* background-color: black; */
+  background-image: url(../assets/imgs-Mitos/Fundo\ Madeira\ Inicio.png);
 }
 
 :root {
@@ -23,15 +24,45 @@ body {
 
 .header {
   height: var(--tamanho-header);
-  border-bottom: 2px solid #32b9cd;
+  /* border-bottom: 2px solid #32b9cd; */
 }
+.header .container{
+  /* background-color: #e3b062; */
+  width: 100%;
+}
+.header_img{
 
+  height: 100%;
+  width: 200px;
+  /* background-color: #32b9cd; */
+
+}
+.header_img img{
+  width: 150px;
+  /* padding: 5%; */
+}
 .header .container {
   justify-content: space-between;
   align-items: center;
   height: 100%;
+  /* width: 100%; */
+  /* background-color: #ED145B; */
 }
+.inline{
+  display: flex;
+  align-content: center;
+  align-items: center;
 
+}
+.inline2{
+  padding-right: 25px;
+
+}
+.logo{
+  width: 15%;
+  padding-left: 5%;
+
+}
 .header a {
   text-decoration: none;
   color: #e3b062;
@@ -46,7 +77,7 @@ body {
   height: 90%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   list-style: none;
   color: #e3b062;
 }
@@ -72,17 +103,39 @@ body {
 .banner {
   height: var(--tamanho-banner);
   color: white;
-  background-image: url('../assets/imgs/bg-jelly-fish-para-home.png');
-  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e3b062;
+  /* justify-items: center; */
+  /* background-image: url('../assets/imgs-Mitos/'); */
+  /* background-size: cover; */
 }
 
 .banner .container {
+  background-color: #32b9cd;
   justify-content: center;
   align-items: center;
   height: 100%;
+  width: 50%;
+  
+}
+.banner .placa_inicio{
+  height: 100%;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: #32b9cd; */
+
+}
+.banner .placa_inicio img{
+  height: 90%;
+  /* background-color: #32b9cd; */
+
 }
 
-.banner .container p {
+.banner .container {
   width: 50%;
   margin: 0;
   padding: 0;

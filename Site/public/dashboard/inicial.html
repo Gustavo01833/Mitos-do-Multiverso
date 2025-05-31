@@ -67,6 +67,7 @@
                     console.log("Dados recebidos listagem: ", JSON.stringify(resposta));
 
                     // resposta = resposta.json()
+                    console.log('Estou exibindo a resposta ', resposta);
 
                     for(var i = 0; i < dados.length; i++){
                         console.log('MaximoJogadores:', dados[i.MaximoJogadores])
@@ -81,6 +82,7 @@
                         document.getElementById('div_sis').innerHTML += `<span>${dados[i].sistema}</span>`;
                         document.getElementById('div_visi').innerHTML += `<span>${dados[i].visibilidade}</span>
                         <br>`
+                        
                         ;
                     }
                 });
