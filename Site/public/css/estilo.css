@@ -32,35 +32,68 @@ body {
 }
 .header_img{
 
-  height: 100%;
-  width: 200px;
-  /* background-color: #32b9cd; */
-
+  /* height: 100%; */
+  width: 100%;
+  /* margin-left: 5%; */
+  /* background-color: #ED145B; */
 }
+
+
+
 .header_img img{
-  width: 150px;
+  height: 100%;
+  
   /* padding: 5%; */
 }
 .header .container {
   justify-content: space-between;
   align-items: center;
   height: 100%;
+  /* margin-left: 5%; */
+
   /* width: 100%; */
   /* background-color: #ED145B; */
 }
 .inline{
   display: flex;
+  width: 50%;
   align-content: center;
   align-items: center;
-
+  /* background-color: #32b9cd; */
+  /* padding-left: 2%; */
 }
-.inline2{
-  padding-right: 25px;
 
+#servicos_sobrenos{
+  display: flex;
+
+  /* background-color: #e3b062; */
+}
+
+#login_cadastro{
+  display: flex;
+  flex-direction: row;
+  /* width: 30%; */
+  justify-content: space-between;
+  /* background-color: #e5e5e5; */
+}
+
+#login_cadastro img , #servicos_sobrenos img{
+  margin-left: 15px;
+  
+}
+
+.inline2{
+  width: 30%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* padding-right: 25px; */
+  /* background-color: #32b9cd; */
 }
 .logo{
-  width: 15%;
-  padding-left: 5%;
+  width: 12%;
+  margin-left: 5%;
 
 }
 .header a {
@@ -106,7 +139,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #e3b062;
+  /* background-color: #e3b062; */
   /* justify-items: center; */
   /* background-image: url('../assets/imgs-Mitos/'); */
   /* background-size: cover; */
@@ -120,7 +153,7 @@ body {
   width: 50%;
   
 }
-.banner .placa_inicio{
+.banner .placa_inicio, .banner .portal_inicio{
   height: 100%;
   width: 50%;
   display: flex;
@@ -132,15 +165,13 @@ body {
 .banner .placa_inicio img{
   height: 90%;
   /* background-color: #32b9cd; */
-
 }
 
-.banner .container {
-  width: 50%;
-  margin: 0;
-  padding: 0;
-  font-size: 36px;
+.banner .portal_inicio img{
+  height: 100%;
+  width: 65%;
 }
+
 
 .banner .container span {
   font-weight: 800;
