@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS tematica(
     nome varchar(45)
 );
 
-CREATE TABLE sistemas(
+CREATE TABLE IF NOT EXISTS sistemas(
 	idSistemas int primary key auto_increment,
     nome varchar(45) not null,
     lancamento date not null,
@@ -28,10 +28,10 @@ CREATE TABLE sistemas(
     constraint SistemasTematica FOREIGN KEY (fkTematica) references tematica(idTematica)
 );
 
-CREATE TABLE favorita(
+CREATE TABLE IF NOT EXISTS  favorita(
 	pkUsuario int,
     pkSistemas int,
-    favoritado tinyint(1),
+    favoritado tinyint(1) default 0,
     dataFavorito timestamp null,
     constraint UsuarioFavorita FOREIGN KEY (pkUsuario) references usuario(idUsuario),
     constraint SistemasFavorita FOREIGN KEY (pkSistemas) references sistemas(idSistemas),
@@ -136,15 +136,28 @@ INSERT INTO sistemas (nome, lancamento, dadoPrincipal, historia, contexto, mecan
     
 
 
-INSERT INTO favorita(pkUsuario, pkSistemas) VALUES
-	(1,1),
-	(1,2),
-    (1,3),
+INSERT INTO favorita(pkUsuario, pkSistemas, favoritado) VALUES
+	(1,1, 0),
+	(1,2, 0),
+    (1,3, 1),
+	(1,4, 0),
+    (1,5, 1),
+    (1,6, 0),
     
-	(2,2),
-	(2,3),
+    (2,1, 1),
+	(2,2, 1),
+	(2,3, 1),
+    (2,4, 1),
+	(2,5, 1),
+	(2,6, 1),
 
-	(3,3);
+
+	(3,1, 1),
+	(3,2, 0),
+	(3,3, 1),
+	(3,4, 1),
+	(3,5, 0),
+	(3,6, 1);
     
 select * from favorita;
 
@@ -153,14 +166,151 @@ select * from favorita;
 BEGIN; -- Listagem de Sistemas
 
 
+show tables;
+CREATE VIEW vw_usuarioFavoritaSistema  as
+		SELECT u.idUsuario,
+			   sis.nome,
+			   fav.favoritado as Favoritado
+		from sistemas sis JOIN favorita fav
+		ON sis.idSistemas = fav.pkSistemas
+		JOIN usuario u 
+		ON u.idUsuario = fav.pkUsuario;
 
 
-SELECT sis.*,
-	   i
-	joi
-from sistemas sis;
+select * from vw_usuarioFavoritaSistema;
+
+CREATE VIEW vw_sistemas as
+	SELECT * FROM sistemas;
+
+SELECT * FROM vw_sistemas;
 
 
+-- SET SQL_MODE= '';
+
+SELECT
+	sis.idSistemas,
+  CASE
+    WHEN top4.nome IS NOT NULL THEN sis.nome
+    ELSE 'Outros'
+  END AS sistema,
+  ROUND(COUNT(fav.favoritado) * 100.0 / (SELECT COUNT(fav.pkSistemas) FROM favorita fav where fav.favoritado = 1), 2) AS porcentagem_uso
+FROM sistemas sis
+JOIN favorita fav ON sis.idSistemas = fav.pkSistemas
+LEFT JOIN (
+  SELECT sis2.nome
+  FROM sistemas sis2
+  JOIN favorita fav2 ON sis2.idSistemas = fav2.pkSistemas
+  where fav2.favoritado = 1
+  GROUP BY fav2.pkSistemas
+  ORDER BY COUNT(fav2.pkSistemas) DESC
+  LIMIT 4
+) AS top4 ON sis.nome = top4.nome 
+JOIN usuario u
+ON u.idUsuario = fav.pkUsuario
+GROUP BY sistema
+ORDER BY 
+porcentagem_uso, sistema DESC;
+
+CREATE VIEW vw_porcentagemFavoritos as
+		SELECT
+		  CASE
+			WHEN top4.nome IS NOT NULL THEN sis.nome
+			ELSE 'Outros'
+		  END AS sistema,
+		  ROUND(COUNT(fav.pkSistemas) * 100.0 / (
+			SELECT COUNT(*) 
+			FROM favorita 
+			WHERE favoritado = 1
+		  ), 2) AS porcentagem_uso
+		FROM sistemas sis
+		JOIN favorita fav ON sis.idSistemas = fav.pkSistemas
+		LEFT JOIN (
+		  SELECT sis2.nome
+		  FROM sistemas sis2
+		  JOIN favorita fav2 ON sis2.idSistemas = fav2.pkSistemas
+		  WHERE fav2.favoritado = 1
+		  GROUP BY sis2.nome
+		  ORDER BY COUNT(sis2.idSistemas) DESC
+		  LIMIT 4
+		) AS top4 ON sis.nome = top4.nome
+		WHERE fav.favoritado = 1
+		GROUP BY sistema
+		ORDER BY porcentagem_uso desc, sistema;
+
+select * from vw_porcentagemFavoritos;
+
+-- QUANTIDADE DE USUÁRIOS CADASTRADOS ENTRE O ÚLTIMO MÊS E O ATUAL
+	SELECT count(u.idUsuario) as mesAtual, 
+		   count(u.idUsuario) as mes1 
+    FROM usuario u
+    WHERE 
+		CASE 
+			WHEN mesAtual THEN dataCriacao between date_format(current_date() month, '%Y-%m-01') and last_day(current_date),
+			WHEN mes1 THEN dataCriacao between date_format(current_date() - interval 1 month, '%Y-%m-01') and last_day(current_date)
+		END;
+
+
+create view vw_qtdCadastros6Mes as
+		SELECT
+		  CASE DATE_FORMAT(dataCriacao, '%m') -- Pega o mês da data para o case
+			WHEN '01' THEN 'Janeiro'
+			WHEN '02' THEN 'Fevereiro'
+			WHEN '03' THEN 'Março'
+			WHEN '04' THEN 'Abril'
+			WHEN '05' THEN 'Maio'
+			WHEN '06' THEN 'Junho'
+			WHEN '07' THEN 'Julho'
+			WHEN '08' THEN 'Agosto'
+			WHEN '09' THEN 'Setembro'
+			WHEN '10' THEN 'Outubro'
+			WHEN '11' THEN 'Novembro'
+			WHEN '12' THEN 'Dezembro'
+		  END AS mes,
+		  DATE_FORMAT(dataCriacao, '%Y') ano, -- Pega o ano da data
+		  ifnull(COUNT(idUsuario), 0) AS cadastros 
+		FROM usuario
+		WHERE dataCriacao >= DATE_SUB(CURRENT_DATE(), interval 5 month) -- DATE SUB SERVE PARA FAZER SUBTRAÇÃO EM DATAS
+		GROUP BY ano, mes
+		ORDER BY ano, DATE_FORMAT(dataCriacao, '%m'); -- Ordenado pelo ano e pelo mês
+
+select * from vw_qtdCadastros6Mes;
+drop view vw_qtdCadastros6Mes;
+
+select 
+	fav.pkSistemas,
+	count(fav.pkSistemas),
+    count(fav.pkUsuario)
+    from favorita fav
+    where fav.favoritado = 1;
+
+SELECT sis2.nome,
+	count(fav2.pkUsuario)
+  FROM sistemas sis2
+  JOIN favorita fav2 ON sis2.idSistemas = fav2.pkSistemas
+  where fav2.favoritado = 1
+  GROUP BY fav2.pkSistemas
+  ORDER BY COUNT(fav2.pkSistemas) DESC
+  -- LIMIT 4
+  ;
+
+/*
+CASE
+    WHEN sis.nome IN ( -- RETORNA O NOME DOS 4 SISTEMAS MAIS UTILIZADOS COMO 'SISTEMA'
+      SELECT sis2.nome
+      
+      FROM sistemas sis2
+      JOIN sala s2 ON sis2.idSistemas = s2.fkSistema
+      GROUP BY sis2.nome
+      ORDER BY count(s2.fkSistema) DESC
+	  
+    ) THEN sis.nome
+    ELSE 'Outros' -- SE NÃO FOR UM DOS 4 MAIS UTILIZADOS É EXIBIDO EM OUTROS
+  END AS sistema, -- O RETORNO É FEITO NA COLUNA 'SISTEMA'
+
+*/
+
+
+select
   CONCAT(COUNT(par.pkUsuario), '/', s.MaxJogadores) AS MaximoJogadores,
   s.nome,
   s.frequencia,
