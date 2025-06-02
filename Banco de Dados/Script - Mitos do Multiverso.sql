@@ -2,6 +2,7 @@ CREATE DATABASE IF NOT exists mitosMultiverso;
 USE mitosMultiverso;
 
 -- drop database mitosMultiverso;
+
 CREATE TABLE IF NOT EXISTS usuario(
 	idUsuario int primary key auto_increment,
     senha varchar(45) not null,
@@ -27,20 +28,11 @@ CREATE TABLE sistemas(
     constraint SistemasTematica FOREIGN KEY (fkTematica) references tematica(idTematica)
 );
 
-
-
-CREATE TABLE participacao(
-	pkSala int,
-    pkUsuario int,
-    dataEntrada timestamp not null default current_timestamp,
-	CONSTRAINT pkComposta PRIMARY KEY (pkSala, pkUsuario)
-    
-);
-
 CREATE TABLE favorita(
 	pkUsuario int,
     pkSistemas int,
-    dataFavorito timestamp default current_timestamp,
+    favoritado tinyint(1),
+    dataFavorito timestamp null,
     constraint UsuarioFavorita FOREIGN KEY (pkUsuario) references usuario(idUsuario),
     constraint SistemasFavorita FOREIGN KEY (pkSistemas) references sistemas(idSistemas),
     CONSTRAINT pkComposta PRIMARY KEY (pkUsuario, pkSistemas)
@@ -72,7 +64,7 @@ INSERT INTO tematica(nome) VALUES
 
 INSERT INTO sistemas (nome, lancamento, dadoPrincipal, historia, contexto, mecanicas, fkTematica) VALUES
 	('D&D5E'
-    , '2014'
+    , '2014-08-19'
     , 'd20'
     , " Teve sua primeira versão criada por Garry Gygax e Dave Arneson em 1974
     , onde estando sobre domínio da Wizards of the Coast, sua 5ª Edição foi públicada, trazendo regras mais
@@ -87,7 +79,7 @@ INSERT INTO sistemas (nome, lancamento, dadoPrincipal, historia, contexto, mecan
     , 1
     ),
     ('Tormenta20'
-    , '2020'
+    , '2020-12-10'
     , 'd20'
     ,'Tendo sua primeira versão criada no Brasil em 1999, públicado na Revista Dragão, sendo inspirado em D&D 3.5, como um dos cenários de campanha disponíveis para jogar,
     porém em 2020 foi totalmente redesenhado como um novo sistema, unificando o cenário e adaptando regras ao que chamaram de "estilo brasileiro de jogar RPG", 
@@ -99,7 +91,7 @@ INSERT INTO sistemas (nome, lancamento, dadoPrincipal, historia, contexto, mecan
     , 1
     ),
     
-    ('Call of Cthulhu 7º ed.', '2014', 'd100', 'Teve sua primeira versão públicada em 1981, e com os anos tendo atualizações e mudanças 
+    ('Call of Cthulhu 7º ed.', '2014-10-01', 'd100', 'Teve sua primeira versão públicada em 1981, e com os anos tendo atualizações e mudanças 
     até que em 2014 teve sua 7ª edição publicada. Tem como sua origem as histórias do escritor H.P Lovecraft, o mais famoso escritor de histórias de Horror Cósmico,
     e após algumas décadas de seu falecimento, surge o RPG Call of Cthulhu, onde os adoradores de histórias de horror e mistério podem se aprofundar em uma experiência 
     mais imersiva dos terrores de entidades desconhecidas.'
@@ -109,7 +101,7 @@ INSERT INTO sistemas (nome, lancamento, dadoPrincipal, historia, contexto, mecan
     , 'Sistema BRP (Basic Role-Playing), sistema de sanidade, combate letal, rolagens d% (d100).'
     , 2),
     
-	('Vampiro a Máscara 5ª ed.', '2018', 'd10'
+	('Vampiro a Máscara 5ª ed.', '2018-08-01', 'd10'
     ,'Teve sua primeira versão lançada em 1991, se tornando revolucionário na época ao focar na narrativa e no horror invés do combate e aventuras épicas.
     Se tornou um ícone da cultura gótica e urbana por volta dos anos 90 por conta de sua temática sombria e sua participação em World of Darkness, junto de 
     criaturas assustadoras como vampiros e lobisomens'
@@ -119,7 +111,7 @@ INSERT INTO sistemas (nome, lancamento, dadoPrincipal, historia, contexto, mecan
     sofrendo com a sede de sangue, enquanto lutam para manter sua própria humanidade.'
     , 'Sistema narrativo, uso de Disciplinas (poderes), Fome, Humanidade e moralidade e intrigas políticas.'
     , 3),
-    ('D&D', '1974', 'd20',
+    ('D&D', '1974-01-01', 'd20',
     'Criado em 1974 por Gary Gygax e Davve Arneson como uma derivação do jogo de guerra medieval Chainmail, Dungeon and Dragons se tornou o primeiro RPG 
     onde a ideia principal era a exploração de masmorras e o combate com criaturas fantásticas em busca de tesouros e itens mágicos'
     ,'A história se passa geralmente em masmorras, criadas pelo narrador com o objetivo de criar um desafio para os jogadores, não existia uma história fixa inicialmente,
@@ -128,7 +120,7 @@ INSERT INTO sistemas (nome, lancamento, dadoPrincipal, historia, contexto, mecan
      para que em grupo pudessem enfrentar os desafios letais que podiam encontrar.'
      , 'Classes limitadas, magias por dia, combate com tabelas, exploração letal'
      , 1),
-    ('Ordem Paranormal', '2021', 'd20'
+    ('Ordem Paranormal', '2022-09-28', 'd20'
     , 'Teve como origem uma série de RPG transmitida ao vivo na Twitch e no Youtube, pelo criador de conteúdo Cellbit, onde inicialmente eram usadas regras caseiras e adaptadas 
     para um foco no suspense e horror investigativo. Porém, devido ao sucesso que a série estava tendo, as regras foram evoluindo e se consolidando até que um ano depois o sistema 
     teve sua primeira versão oficialmente lançada.'
@@ -141,25 +133,10 @@ INSERT INTO sistemas (nome, lancamento, dadoPrincipal, historia, contexto, mecan
     
 
     SELECT * FROM sistemas;
-    SELECT * FROM sala;
     
-INSERT INTO sala (fkDono, fkSistema, nome, frequencia, visibilidade, descricao, maxJogadores, senha) VALUES
-	(1, 1, "Era uma Vez", 'Semanal', 'Público', 'Era uma vez.. O que mesmo? Como vim parar aqui?', 5, 'bobo'),
-	(1, 2, "Camomila", 'Diário', 'Público', 'Carmomila', 4, 'bobo'),
-    (2, 1, "Aventuras em Baixo mar", 'Anual', 'Privado', 'Era uma vez.. O que mesmo? Como vim parar aqui?', 5, 'bobo'),
-    
-	(1, 3, "Era uma Vez", 'Semanal', 'Público', 'Era uma vez.. O que mesmo? Como vim parar aqui?', 5, 'bobo'),
-	(1, 4, "Camomila", 'Diário', 'Público', 'Carmomila', 4, 'bobo'),
-    (2, 5, "Aventuras em Baixo mar", 'Anual', 'Privado', 'Era uma vez.. O que mesmo? Como vim parar aqui?', 5, 'bobo'),
 
-	(3, 1, "Era uma Vez", 'Semanal', 'Público', 'Era uma vez.. O que mesmo? Como vim parar aqui?', 5, 'bobo'),
-	(2, 2, "Camomila", 'Diário', 'Público', 'Carmomila', 4, 'bobo'),
-    (2, 6, "Aventuras em Baixo mar", 'Anual', 'Privado', 'Era uma vez.. O que mesmo? Como vim parar aqui?', 5, 'bobo');
-    
-    
-SELECT * FROM sala;    
 
-INSERT INTO participacao(pkSala, pkUsuario) VALUES
+INSERT INTO favorita(pkUsuario, pkSistemas) VALUES
 	(1,1),
 	(1,2),
     (1,3),
@@ -169,27 +146,21 @@ INSERT INTO participacao(pkSala, pkUsuario) VALUES
 
 	(3,3);
     
-select * from participacao;
+select * from favorita;
 
 
 
-INSERT INTO personagem (nome,vida, fkSala,fkSistema,fkUsuario) VALUES
-	('Carmoleão', 10, 1, 1, 1),
-	('Adalberto', 14, 1 ,1, 2),
-	('Geralt', 13 , 1, 1, 3),
-    
-    ('Queiroz', 9 , 2, 1, 1),
-	('Vilhena', 13 , 2, 1, 1);
-
-SELECT * FROM personagem;
-
-SELECT * FROM sala;
-SET sql_mode = ' ' ;
+BEGIN; -- Listagem de Sistemas
 
 
-BEGIN; -- Listagem de Salas
 
-SELECT 
+
+SELECT sis.*,
+	   i
+	joi
+from sistemas sis;
+
+
   CONCAT(COUNT(par.pkUsuario), '/', s.MaxJogadores) AS MaximoJogadores,
   s.nome,
   s.frequencia,
@@ -201,6 +172,8 @@ LEFT JOIN participacao par ON s.idSala = par.pkSala
 GROUP BY s.idSala, s.nome, s.frequencia, sis.nome, s.visibilidade, s.MaxJogadores
 HAVING 
 count(par.pkUsuario) > 0;
+
+
 
 	-- LISTAGEM DE SALAS NO GERAL
 SELECT concat((select count(par.pkUsuario) FROM 
