@@ -20,24 +20,50 @@
     <!--Header-->
 
     <div class="header">
-        <div class="container">
-            <h1 class="titulo">AquaTech</h1>
-            <ul class="navbar">
-                <li>
-                    <a href="index.html">Inicial</a>
-                </li>
-                <li>
-                    <a href="simulador.html">Simulador</a>
-                </li>
-                <li>|</li>
-                <li class="agora">
-                    <a href="#">Login</a>
-                </li>
-                <li>
-                    <a href="cadastro.html">Cadastro</a>
-                </li>
-            </ul>
-        </div>
+      <div class="container">
+        <!-- <h1 class="titulo">A</h1> -->
+         <div class="inline">
+
+          <label id="label_logo" for="imagem_logo">
+              <a href="index.html">
+              <img id="imagem_logo" class="logo" style="height: 80%;" src="./assets/Icon-Mitos/Group 9.png" alt="">
+            </a>
+          </label>
+
+          
+        
+          <ul class="navbar">
+            <div id="servicos_sobrenos">
+
+              <a class="header_img" href="index.html#div_bem_vindo">
+                <img src="assets/imgs-Mitos/Mitos do Multiverso - Botões/Serviços.png"  alt="">
+              </a>
+              
+              <a class="header_img" href="index.html#div_servicos">
+                <img src="assets/imgs-Mitos/Mitos do Multiverso - Botões/Sobre-nós.png"  alt="">
+              </a>
+            </div>
+
+          </div>
+
+          <div class="inline2">
+            <!-- <a href="simulador.html">Simulador</a> -->
+            <!-- <img src="assets/imgs-Mitos/Botão.png" alt=""> -->
+
+          <!-- <li>|</li> -->
+          
+            <div id="login_cadastro">
+                <a class="header_img" href="login.html">
+                  <img src="assets/imgs-Mitos/Mitos do Multiverso - Botões/Login.png"  alt="">
+                </a>
+              
+                <a class="header_img" href="cadastro.html">
+                  <img src="assets/imgs-Mitos/Mitos do Multiverso - Botões/Cadastro.png"  alt="">
+                </a>
+            </div>
+          </div>
+        </ul>
+      </div>
     </div>
 
 
@@ -48,35 +74,42 @@
             </div>
         </div>
         <div class="container">
-            <div class="card card-login">
-                <h2>Olá de volta!</h2>
-                <div class="formulario">
-                    <div class="campo">
+
+            <div class="div_centraliza2">
+                <div class="topo_caderno">
+                <h2>Login</h2>
+                </div>
+                <div class="corpo_caderno">
+                        <div class="campo">
                         <span>E-mail:</span>
-                        <input id="email_input" type="text" placeholder="Login">
-                    </div>
-                    <div class="campo">
+                        <input id="email_input" type="text" placeholder="meuemail@provedor.com" />
+                        </div>
+                        <div class="campo">
                         <span>Senha:</span>
-                        <input id="senha_input" type="password" placeholder="******">
+                        <input id="senha_input" type="password" placeholder="******" />
+                        </div>
+                            <button class="botao" onclick="entrar()">Entrar</button>
+                        
+                    <div id="div_aguardar" class="loading-div">
+                        <img src="./assets/circle-loading.gif" id="loading-gif" />
                     </div>
-                    <button class="botao" onclick="entrar()">Entrar</button>
                 </div>
 
-                <div id="div_aguardar" class="loading-div">
-                    <img src="./assets/circle-loading.gif" id="loading-gif">
-                </div>
+        <div id="div_erros_login"></div>
 
-                <div id="div_erros_login"></div>
-            </div>
+      </div>
+            
         </div>
     </div>
 
     <!--footer inicio-->
     <div class="footer">
-        <div class="container">
-            <h4>Feito com amor por aluno &hearts; SPTech &copy; 2023</h4>
-            <span class="version">v1.0.0</span>
-        </div>
+      <div class="container">
+        <span>Feito por</span>
+        <span>Gustavo de Oliveira</span>
+        <span>SPTech 2025</span>
+
+      </div>
     </div>
     <!--footer fim-->
 

@@ -1,4 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@font-face {
+  font-family: 'Rooters';
+  src: url(../assets/fonts/Rooters.ttf) format('truetype');
+}
+
+*{
+  font-family: 'Rooters',sans-serif;
+
+
+}
+
 
 body {
   margin: 0;
@@ -12,7 +23,7 @@ body {
   --tamanho-header: 100px;
   --tamanho-banner: calc(100vh - var(--tamanho-header) - var(--tamanho-footer) - 2px);
   --tamanho-simulador: calc(100vh - var(--tamanho-header) - var(--tamanho-footer) - 2px);
-  --tamanho-login: calc(100vh - var(--tamanho-header) - var(--tamanho-footer) - 2px);
+  --tamanho-login: calc(105vh - var(--tamanho-header) - var(--tamanho-footer) - 2px);
   --tamanho-footer: 65px;
 }
 
@@ -60,13 +71,13 @@ body {
   align-content: center;
   align-items: center;
   /* background-color: #32b9cd; */
-  /* padding-left: 2%; */
+  padding-left: 2%;
 }
 
 #servicos_sobrenos{
   display: flex;
-
   /* background-color: #e3b062; */
+  /* width: 100%; */
 }
 
 #login_cadastro{
@@ -91,9 +102,10 @@ body {
   /* padding-right: 25px; */
   /* background-color: #32b9cd; */
 }
-.logo{
-  width: 12%;
-  margin-left: 5%;
+
+label .logo{
+  width: 65%;
+  /* margin-left: 5%; */
 
 }
 .header a {
@@ -179,13 +191,266 @@ body {
 
 /* MISSÃO VISÃO VALORES */
 
-.social {
-  background-color: #e5e5e5;
-  display: flex;
+.div_divisao{
+  width: 100%;
+  height: 15px;
+  background-image: url(../assets/imgs-Mitos/divisão.png);
+  border-top: 2px solid;
+  border-bottom:2px solid;
 }
+
+.div_bem_vindo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url(../assets/imgs-Mitos/Fundo\ Madeira\ Inicio.png);
+  /* height: 600px; */
+  width: 100%;
+  height: 700px;
+  background-color: #32b9cd;
+  
+}
+
+.div_centraliza{
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width:80%;
+  height: 100%;
+  margin-top: 5%;
+  /* background-color: #e3b062; */
+
+}
+.div_centraliza img{
+  width: 75%;
+  /* margin-top: 3%; */
+  z-index: 1;
+}
+
+.div_separador{
+
+  display: flex;
+  flex-direction: row;
+  /* background-color: #32b9cd; */
+  width: 80%;
+  height: 80%;
+  /* padding: 1%; */
+}
+
+.div_separador img{
+
+  width: 70%;
+  margin: 0;
+}
+
+.div_divisao_esquerda{
+  display: flex;
+  flex-direction: column;
+  
+  /* align-items: center; */
+  justify-items: center; 
+  
+  
+  width: 50%;
+}
+
+
+.div_divisao_esquerda img{
+  padding-top: 3%;
+}
+
+.div_corda{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10%;
+  width: 78%;
+  z-index: 0;
+  padding-right: 1.6%;
+  /* background-color: #32b9cd; */
+}
+.div_corda img {
+  height: 210%;
+  /* background-color: #32b9cd; */
+}
+
+.div_imagem{
+  display: flex;
+  flex-direction: column;
+  height: 31%;
+  align-items: center;
+  justify-content: center;
+  /* background-color: antiquewhite; */
+  /* margin: 0; */
+
+}
+
+.div_divisao_direita .div_imagem{
+  /* margin: 0; */
+  height: 40%;
+}
+
+.div_divisao_direita .div_corda img{
+  /* background-color: #32b9cd; */
+  height: 140%;
+}
+
+.div_divisao_direita{
+  width: 50%;
+  height: 100%;
+  /* margin-top: 1.3%; */
+  /* background-color: #ED145B; */
+}
+
+.div_divisao_direita .div_slimo {
+  /* background-color: #e3b062; */
+  /* height: 64%; */
+  /* margin-top: 2%; */
+  display: flex;
+  /* justify-self: flex-end; */
+  /* align-items: end; */
+  margin-top: 16%;
+  /* align-content: flex-end; */
+  /* justify-self: flex-end; */
+  /* align-self: flex-end; */
+  justify-content: center;
+  width: 100%;
+  /* height: 40%; */
+}
+
+.div_divisao_direita .div_slimo img{
+  /* background-color: #e3b062; */
+  /* height: 20%; */
+  
+  width: 30%;
+}
+
+
+/* Fim da seção de sobre nós */
+
+/* Início da seção de serviços */
+
+.div_servicos{
+
+  /* background-color: #e3b062; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* height: 600px; */
+  width: 100%;
+  height: 700px;  
+}
+
+.div_servicos .div_centraliza{
+  width: 50%;
+  height: 80%;
+  /* background-color: #ED145B; */
+}
+
+.topo_caderno{
+  width: 100%;
+  height: 15%;
+  font-size: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px 15px 0px 0px;
+  border: 3px solid black;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
+  background-color: #F4D695;
+}
+
+.topo_caderno span{
+  color: white;
+  text-shadow:
+    -3px -3px 0 #000,  
+     3px -3px 0 #000,
+    -3px  3px 0 #000,
+     3px  3px 0 #000;
+  /* stroke-width: 10px; */
+  
+}
+.topo_caderno h2{
+color: white;
+
+  text-shadow:
+    -5px -5px 0 #000,  
+     3px -5px 0 #000,
+    -5px  5px 0 #000,
+     5px  5px 0 #000;
+  /* stroke-width: 10px; */
+  
+
+}
+
+
+
+.corpo_caderno{
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  height: 75%;
+  border: 3px solid black;
+  border-top: 0px;
+  background-color: #EAD19A;
+  border-radius: 0px 0px 10px 10px;
+  /* -webkit-text-stroke: 1px black; */
+  font-size: 2rem;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
+
+}
+.fim_caderno1{
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  /* margin-bottom: 10px; */
+  
+  width: 98%;
+  height: 1%;
+  border: 3px solid black;
+  border-top: 0px;
+  background-color: #EAD19A;
+  border-radius: 0px 0px 10px 10px;
+  /* -webkit-text-stroke: 1px black; */
+  font-size: 2rem;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
+
+}
+.fim_caderno2{
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  /* margin-bottom: 10px; */
+  
+  width: 96%;
+  height: 1%;
+  border: 3px solid black;
+  border-top: 0px;
+  background-color: #EAD19A;
+  border-radius: 0px 0px 10px 10px;
+  /* -webkit-text-stroke: 1px black; */
+  font-size: 2rem;
+
+}
+
+.campo{
+  width: 80%;
+  height: 50%;
+}
+
+
 
 .social .container {
   justify-content: center;
+  /* background-color: #32b9cd; */
 }
 
 .box img {
@@ -212,27 +477,41 @@ body {
 /* FOOTER */
 
 .footer {
-  background-color: #32b9cd;
+  background-image: url(../assets/imgs-Mitos/footer.png);
   height: 150px;
   color: #fff;
   display: flex;
   font-size: 15px;
+  border-top: 2px solid black;
 }
 
 .footer .container {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   text-align: center;
+  /* background-color: #32b9cd; */
 }
 
-.footer .container .version {
-  font-size: 12px;
+.footer .container span{
+  font-size: 1.8rem;
+  color: white;
+  -webkit-text-stroke-width:5px black;
+  text-shadow:
+    -3px 2px 0 #000,  
+     2px -3px 0 #000,
+    -2px  3px 0 #000,
+     3px  2px 0 #000;
+  /* stroke-width: 10px; */
+  
+
 }
 
 /* LOGIN */
 
 .login {
   height: var(--tamanho-login);
-  background-image: url('../assets/imgs/bg-jelly-fish-para-home.png');
+  /* background-image: url('../assets/imgs-Mitos/Fundo\ madeira\ inicio.png'); */
   background-size: cover;
 }
 
@@ -240,11 +519,14 @@ body {
   justify-content: center;
   align-items: center;
   height: 100%;
+  /* background-color: #e3b062; */
 }
 
 .card {
-  width: 50%;
-  background-color: #e5e5e5;
+  width: 70%;
+  /* height: 100px; */
+  /* height: 1000px; */
+  background-color: #32b9cd;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -253,6 +535,39 @@ body {
   flex-direction: column;
   height: fit-content;
   padding: 20px 0;
+}
+
+
+.div_centraliza2{
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width:70%;
+  height: 100%;
+  margin-top: 5%;
+  /* background-color: #e3b062; */
+
+}
+
+.div_centraliza2 .topo_caderno{
+  font-size: 2rem;
+  height: 10%;
+}
+
+.div_centraliza2 .corpo_caderno{
+  justify-content: start;
+  align-items: center;
+
+
+}
+
+.div_centraliza2 .corpo_caderno .campo{
+
+    /* background-color: #32b9cd; */
+    margin-top: 2%;
+    height: 20%;
+
 }
 
 .card h2 {
@@ -269,8 +584,8 @@ body {
 }
 
 .formulario span {
-  font-size: 15px;
-  font-weight: 800;
+  font-size: 1rem;
+  /* font-weight: 800; */
 }
 
 .formulario input {
@@ -292,29 +607,40 @@ body {
 
 .campo {
   display: flex;
+
+  /* height: 100px; */
   flex-direction: column;
   justify-content: start;
-  padding: 5px 0;
+  font-size: 1.4rem;
+  /* background-color: #ED145B; */
+  /* padding: 5px 0; */
+}
+
+.campo input{
+  font-size: 1.5rem;
+
 }
 
 .botao {
   cursor: pointer;
-  font-family: "Barlow", sans-serif;
-  border: 0;
+  /* font-family: "Barlow", sans-serif; */
+  border: 2px solid black;
   border-radius: 5px;
   font-weight: 600;
-  font-size: 18px;
-  color: #fff;
-  background-color: #ED145B;
-  width: 120px;
-  height: 30px;
+  font-size: 1.5rem;
+  color: black;
+  background-color: #FF8E43;
+
+  width:  20%;
+  height: 13%;
   align-self: center;
-  margin-top: 20px;
+  margin-top: 5%;
 }
 
 .loading-div {
   width: 50px;
   display: none;
+  background-color: #ED145B;
 }
 
 .loading-div img {
@@ -343,6 +669,7 @@ body {
   border: #ED145B 3px solid;
   padding: 10px;
   margin-right: 10%;
+  z-index: 1;
 }
 
 .card_erro #mensagem_erro{
@@ -362,7 +689,7 @@ body {
 
 input {
   margin-bottom: 10px;
-  border: 2px solid #32b9cd;
+  border: 2px solid black;
   padding: 10px;
   text-align: center;
   border-radius: 10px;
