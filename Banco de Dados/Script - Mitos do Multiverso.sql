@@ -169,7 +169,7 @@ BEGIN; -- Listagem de Sistemas
 show tables;
 CREATE VIEW vw_usuarioFavoritaSistema  as
 		SELECT u.idUsuario,
-			   sis.nome,
+			   sis.*,
 			   fav.favoritado as Favoritado
 		from sistemas sis JOIN favorita fav
 		ON sis.idSistemas = fav.pkSistemas
@@ -178,6 +178,7 @@ CREATE VIEW vw_usuarioFavoritaSistema  as
 
 
 select * from vw_usuarioFavoritaSistema;
+-- drop view vw_usuarioFavoritaSistema;
 
 CREATE VIEW vw_sistemas as
 	SELECT * FROM sistemas;
@@ -216,8 +217,7 @@ CREATE VIEW vw_porcentagemFavoritos as
 select * from vw_porcentagemFavoritos;
 
  create view vw_qtdCadastros6Mes as
-		
-SELECT
+		SELECT
 		CASE DATE_FORMAT(dataCriacao, '%m') -- Pega o mês da data para o case
 			WHEN '01' THEN 'Janeiro'
 			WHEN '02' THEN 'Fevereiro'
@@ -241,6 +241,7 @@ SELECT
 		ORDER BY ano, mes2; -- Ordenado pelo ano e pelo mês
         
 
+ALTER TABLE favorita SET favoritado = 1 where pkUsuario = 1;
 
 select max(cadastros) from vw_qtdCadastros6Mes;
 select * from vw_qtdCadastros6Mes;
