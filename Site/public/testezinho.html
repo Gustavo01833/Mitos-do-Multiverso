@@ -6,9 +6,10 @@
     <title>Document</title>
 </head>
 <body>
-    <input type="text" name="" id="nome_input">
+
     <input type="text" name="" id="email_input">
     <input type="text" name="" id="senha_input">
+    <input type="text" name="" id="confirmaSenha_input">
     <button onclick="cadastrar()">Cadastrar</button>
 
 </body>
@@ -18,9 +19,9 @@
 <script>
     function cadastrar(){
       
-    var nomeVar = nome_input.value;
     var emailVar = email_input.value;
     var senhaVar = senha_input.value;
+    var confirmaSenha = confirmaSenha.value
     // var confirmacaoSenhaVar = confirmacao_senha_input.value;
 
      fetch("/usuarios/cadastrar", {
@@ -31,7 +32,6 @@
       body: JSON.stringify({
         // crie um atributo que recebe o valor recuperado aqui
         // Agora vá para o arquivo routes/usuario.js
-        nomeServer: nomeVar,
         emailServer: emailVar,
         senhaServer: senhaVar
       }),
