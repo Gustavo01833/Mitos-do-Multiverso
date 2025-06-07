@@ -13,8 +13,6 @@ var path = require("path");
 var PORTA_APP = process.env.APP_PORT;
 var HOST_APP = process.env.APP_HOST;
 
-var app = express();
-
 var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 var avisosRouter = require("./src/routes/avisos");
@@ -24,11 +22,22 @@ var empresasRouter = require("./src/routes/empresas");
 
 var sistemasRouter = require("./src/routes/sistemas");
 
+
+var app = express();
+
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3333',
+    methods:['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}))
+
+
+
 
 app.use("/", indexRouter);
 app.use("/usuarios", usuarioRouter);

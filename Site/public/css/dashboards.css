@@ -682,15 +682,15 @@ label a .logo{
 
 /* DASHBOARD */
 
-.dash{
-  background-color: #32b9cd;
-}
+/* .dash{
+   background-color: #32b9cd; 
+} */
 
 .dash .div_centraliza{
   margin: 0;
   height: 90%;
   width: 90%;
-  background-color: #212124;
+  /* background-color: #212124; */
 }
 
 
@@ -751,3 +751,36 @@ label a .logo{
   /* background-color: #9ccc65; */
 
 }
+.alinhaCard img{
+  width: 50%;
+}
+.estrela{
+  width: 100%;
+
+}
+
+
+.div_centraliza3{
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  height: 100%;
+  margin-top: 5%;
+  /* background-color: #e3b062; */
+
+}
+
+.div_centraliza3 .topo_caderno{
+  font-size: 2rem;
+  height: 10%;
+}
+
+.div_centraliza3 .corpo_caderno{
+  justify-content: start;
+  align-items: center;
+
+
+}
+

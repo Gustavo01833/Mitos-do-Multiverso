@@ -95,11 +95,12 @@
                     </div>
                 </div>
 
-        <div id="div_erros_login"></div>
-
-      </div>
+       
             
         </div>
+         <div id="div_erros_login"></div>
+
+      </div>
     </div>
 
     <!--footer inicio-->
@@ -157,12 +158,22 @@
                 resposta.json().then(json => {
                     console.log(json);
                     console.log(JSON.stringify(json));
-                    sessionStorage.EMAIL_USUARIO = json.email;
-                    sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.id;
 
+                    // const usuario = {
+                    //   id: json.id, 
+                    //   email: json.email
+                    // };
+                    // sessionStorage.setItem('usuario', JSON.stringify(usuario));
+
+                    
+                    // sessionStorage.EMAIL_USUARIO = json.EMAIL_USUARIO;
+                    // sessionStorage.ID_USUARIO = json.ID_USUARIO;
+
+                    sessionStorage.EMAIL_USUARIO = json[0].email;
+                    sessionStorage.ID_USUARIO = json[0].idUsuario;
+                    
                     setTimeout(function () {
-                        window.location = "./dashboard/cards.html";
+                        window.location = "./dashboard/listagem.html";
                     }, 1000); // apenas para exibir o loading
 
                 });
@@ -187,5 +198,7 @@
     function sumirMensagem() {
         cardErro.style.display = "none"
     }
+
+
 
 </script>
