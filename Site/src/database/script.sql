@@ -1,3 +1,10 @@
+-- Arquivo de apoio, caso você queira criar tabelas como as aqui criadas para a API funcionar.
+-- Você precisa executar os comandos no banco de dados para criar as tabelas,
+-- ter este arquivo aqui não significa que a tabela em seu BD estará como abaixo!
+
+/*
+comandos para mysql server
+*/
 CREATE DATABASE IF NOT exists mitosMultiverso;
 USE mitosMultiverso;
 
@@ -166,7 +173,7 @@ select * from favorita;
 BEGIN; -- Listagem de Sistemas
 
 
-show tables;
+
 CREATE VIEW vw_usuarioFavoritaSistema  as
 		SELECT u.idUsuario,
 			   sis.nome,
@@ -184,8 +191,6 @@ CREATE VIEW vw_sistemas as
 
 SELECT * FROM vw_sistemas;
 
-
--- SET SQL_MODE= '';
 
 CREATE VIEW vw_porcentagemFavoritos as
 		SELECT
@@ -244,5 +249,5 @@ SELECT
 
 select max(cadastros) from vw_qtdCadastros6Mes;
 select * from vw_qtdCadastros6Mes;
--- drop view vw_qtdCadastros6Mes;
+
 
