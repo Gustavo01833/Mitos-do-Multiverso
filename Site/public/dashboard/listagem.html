@@ -121,62 +121,7 @@
 
     let proximaAtualizacao;
 
-    window.onload = cadastrarTodosSistemas();
-    window.onload = buscarSistemas();
-    
-
-    
-    function cadastrarTodosSistemas(idUsuarioVar){
-
-    var idUsuarioVar = sessionStorage.ID_USUARIO
-    
-    console.log(sessionStorage)
-
-    console.log('O ID DE USUARIO ESTÁ COMO', idUsuarioVar);
-    // const idUsuario = sessionStorage.ID_USUARIO;
-    // var senhaVar = senha_input.value;
-    // var confirmaSenha = confirmaSenha.value
-    // var confirmacaoSenhaVar = confirmacao_senha_input.value;
-
-     fetch("/usuarios/cadastrarTodosSistemas", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        // crie um atributo que recebe o valor recuperado aqui
-        idUsuarioServer: idUsuarioVar
-
-        // Agora vá para o arquivo routes/usuario.js
-        
-      }),
-    })
-      .then(function (resposta) {
-        console.log("resposta: ", resposta);
-        console.log('tentando cadastrar os sistemas nele')
-
-        if (resposta.ok) {
-          //cardErro.style.display = "block";
-
-          //mensagem_erro.innerHTML =
-            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
-         // limparFormulario();
-         // finalizarAguardar();
-        } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
-        }
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-        //finalizarAguardar();
-      });
-
-    return false;
-
-    }
-
-
+    window.onload =  buscarSistemas();
 
     function buscarSistemas(idUsuarioVar){
 
