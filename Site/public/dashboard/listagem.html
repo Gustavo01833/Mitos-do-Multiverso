@@ -212,14 +212,14 @@
 
                     for(var i = 0; i < dados.length; i++){
                         
-                        console.log('idSistema', dados[i].idSistemas);
+                        console.log('idSistema', dados[i].idSistema);
                         console.log('Lançamento:', dados[i].anoLancamento)
                         console.log('Nome do Sistema:', dados[i].nomeSistema)
                         console.log('Dado Principal:', dados[i].dadoPrincipal)
                         console.log('Temática:', dados[i].nomeTematica)
                         console.log('Status:', dados[i].Favoritado)
 
-                        let idSistema = dados[i].idSistemas;
+                        let idSistema = dados[i].idSistema;
                         let anoLancamento = dados[i].anoLancamento;
                         let nomeSistema = dados[i].nomeSistema;
                         let dadoPrincipal = dados[i].dadoPrincipal;
@@ -282,7 +282,7 @@
         
         console.log('O ID DE SISTEMA ESTÁ ESTÁ COMO', idSistema);
 
-        fetch(`/usuarios/buscarSistemas?idUsuario=${idUsuarioVar}`, {
+        fetch(`/usuarios/irParaSistema?idSistema=${idSistema}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -292,15 +292,16 @@
 
             if (resposta.ok) {
 
-                
+                console.log('FUNFOU IHULLL')
+
                 console.log(resposta);
                 return resposta.json().then (function (dados) {
 
-                    
+                    console.log(dados)
 
-                   
+                    sessionStorage.SISTEMA_ATUAL = JSON.stringify(dados); // Transforma o objeto em String JSON
                     
-
+                    window.location = "./sistema.html";
                 });
             } else {
 

@@ -69,10 +69,10 @@
             <div class="div_centraliza">
                 <div class="caderno">
 
-                    <div class="topo_caderno"><span>D&D 5E</span></div>
+                    <div  class="topo_caderno"><span id="nomeSistema">D&D 5E</span></div>
                     <div class="corpo_caderno2">
 
-                        <div class="divisaoSistema" id="div_generoPrincipal"> 
+                        <div class="divisaoSistema" > 
                             <span class="subTitulo">Gênero Principal</span>
 
                             <span id="generoPrincipal" class="texto">
@@ -119,11 +119,48 @@
 </html>
 
 <script>
-    b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+    // b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
     let proximaAtualizacao;
 
-    window.onload = exibirAquariosDoUsuario();
+    window.onload = receberDados();
+
+
+    function receberDados(){
+
+       const dadosSistema = sessionStorage.getItem('SISTEMA_ATUAL');
+
+       console.log(dadosSistema);
+       
+        if (dadosSistema) {
+            //informações que foram passadas em string e que converto para JSON transformando em um objeto
+            const dados = JSON.parse(dadosSistema); 
+
+            console.log(dados);
+
+            console.log(dados[0].nomeSistema);
+            console.log(dados[0].nomeTematica);
+            console.log(dados[0].historia);
+            console.log(dados[0].contexto);
+            console.log(dados[0].mecanicas);
+            
+
+            nomeSistema.innerHTML = dados[0].nomeSistema;
+            generoPrincipal.innerHTML = dados[0].nomeTematica;
+            historia.innerHTML = dados[0].historia;
+            contexto.innerHTML = dados[0].contexto;
+            mecanicas.innerHTML = dados[0].mecanicas;
+
+            // document.getElementById('nomeSistema').innerText = dados[0].nomeSistema;
+
+            // document.getElementById('anoLancamento').innerText = dadosSistema.anoLancamento;
+            // // e assim por diante...
+        } else {
+            console.error("Nenhum dado encontrado no sessionStorage!");
+        }
+
+    }
+
 
     function exibirAquariosDoUsuario() {
         var aquarios = JSON.parse(sessionStorage.AQUARIOS);

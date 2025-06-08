@@ -63,6 +63,22 @@ function buscarSistemas(idUsuario) {
     return database.executar(instrucaoSql);
 }
 
+function irParaSistema(idSistema) {
+
+    console.log("ID do sistema recebido:", idSistema);
+    
+    // var idUsuario = sessionStorage.ID_USUARIO;
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", idSistema)
+    
+    var instrucaoSql = `
+        select * from vw_usuarioFavoritaSistema where idSistema = ${idSistema} order by Favoritado desc limit 1;
+
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+
 function favoritar(){
      console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
     var instrucaoSql = `
@@ -70,10 +86,13 @@ function favoritar(){
 }
 
 
+
+
 module.exports = {
     autenticar,
     cadastrar,
     cadastrarTodosSistemas,
     buscarSistemas,
+    irParaSistema,
     favoritar
 };

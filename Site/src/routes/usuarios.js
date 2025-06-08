@@ -17,10 +17,14 @@ router.post("/autenticar", function (req, res) {
 });
 
 router.get("/buscarSistemas", function (req, res) {
-    const idUsuario = req.query.idUsuario;
+    
   usuarioController.buscarSistemas(req, res);
 });
 
+router.get("/irParaSistema", function (req, res) {
+    
+  usuarioController.irParaSistema(req, res);
+});
 
 
 

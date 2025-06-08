@@ -581,7 +581,10 @@ label a .logo{
   /* background-color: #5c6bc0; */
 }
 #nomeSistema{
-  width: 35%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  
   /* background-color: #5c0ba9; */
 }
 #dadoPrincipal{
@@ -641,6 +644,7 @@ label a .logo{
 .texto{
   font-size: 1.5rem;
   margin-left: 5%;
+  margin-bottom: 2%;
   word-wrap: break-word;
 
 }
@@ -659,6 +663,7 @@ label a .logo{
   padding-bottom: 10px;
   /* min-height: 90%; */
   height: fit-content;
+  /* margin-bottom: 10px; */
   /* background-color: #32b9cd; */
   
 }
