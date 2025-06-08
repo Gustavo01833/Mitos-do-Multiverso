@@ -134,6 +134,82 @@
     // var confirmaSenha = confirmaSenha.value
     var confirmacaoSenhaVar = confirmacao_senha_input.value;
 
+    emailVar = emailVar.trim();
+    senhaVar = senhaVar.trim();
+    confirmacaoSenhaVar = confirmacaoSenhaVar.trim();
+
+
+    if (
+      emailVar == "" ||
+      senhaVar == "" ||
+      confirmacaoSenhaVar == ""
+    ) {
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML =
+        "(Preencha todos os campos)";
+
+      finalizarAguardar();
+      return false;
+    }
+    else if(
+      !emailVar.includes('@') || // Verifica se o email possui @
+      !emailVar.includes('.') || // Verifica se o email possui .
+      emailVar.length > 254 || // Verifica se o email tem mais de 254 de tamanho que é o valor do banco
+      emailVar.lastIndexOf('.') < emailVar.indexOf('@') || // Verifica se a posição do último . é menor que o @, ou seja, se o último . vem antes do @
+      emailVar.split('@').length != 2 // Verifica se separando o email pelo @ o resultado são duas metades, ou seja, se tem apenas um @ no email é importante ter o .length poiis o split divide as partes num array/vetor
+    ){
+
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML =
+        "(E-mail inválido)";
+      
+      finalizarAguardar();
+      return false;
+
+    }
+    else if(confirmacaoSenhaVar != senhaVar) {
+      
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML =
+        "(A senha e a confirmação da senha devem ser iguais)";
+      
+      finalizarAguardar();
+      return false;
+    }
+    else if(
+
+      // Regex = Regular Expressio, utlizada para encontrar padrões ou caracteres em um texto.
+      // Utilizo o / / para determinar que dentro dele será um Regex
+      // [ ] é utilizado para determinar um conjunto de caracteres que será verificado
+      // Estou utilizando métodos de um objeto RegExp, por isso ele vem primeiro
+      // Estou utilizando o .test() pois ele retorna verdadeiro ou falso que é o importante para mim no momento
+      // Não utilizo o .match() pois ele retorna um array ou null se não encontrar
+      // Como funciona o .test = /regex/.test(String)
+      // Ou seja, utilizando o conjunto definido ele testa se a String/texto atende aos critérios
+
+      senhaVar.length < 6 || 
+      !/[A-Z]/.test(senhaVar) || // Aqui estou utilizando Regex para verificar se senha contém uma letra maiúscula de A a Z
+      !/[a-z]/.test(senhaVar) || //Aqui estou utilizando Regex para verificar se senha contém uma letra minúscula de A a Z
+      !/[0-9]/.test(senhaVar) ||// Aqui estou utilizando Regex para verificar se senha contém um número de 0 a 9
+      !/[\W_]/.test(senhaVar) //Aqui estou utilizando Regex para verificar se senha contém um caractere especial, o _ está junto pois alguns navegadores não interpretam _ como caractere especial, então ele está ali para que seja considerado
+
+    ){
+
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML =
+        "(A senha deve conter pelo menos 8 caracteres, uma letra maiúscula e minúscula, um número e um caractere especial)";
+      
+      finalizarAguardar();
+      return false;
+
+
+    }
+
+    else {
+      setInterval(sumirMensagem, 5000);
+    }
+
+
      fetch("/usuarios/cadastrar", {
       method: "POST",
       headers: {
@@ -152,7 +228,7 @@
         if (resposta.ok) {
           //cardErro.style.display = "block";
 
-          //mensagem_erro.innerHTML =
+          mensagem_erro.innerHTML =
             "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
           setTimeout(() => {
@@ -162,12 +238,21 @@
          // limparFormulario();
          // finalizarAguardar();
         } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
+
+          return resposta.text().then(function (mensagemErro) { // Pegamos a mensagem de erro que foi passada e lemos ela como um texto/String
+          
+          cardErro.style.display = "block";
+          mensagem_erro.innerHTML = mensagemErro;
+          finalizarAguardar();
+          throw "Houve um erro ao tentar realizar o cadastro!";// Interrompe a execução, então tem que vir por último
+
+        });
+          
         }
       })
       .catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
-        //finalizarAguardar();
+        finalizarAguardar();
       });
 
     return false;
@@ -206,6 +291,7 @@
          // finalizarAguardar();
         } else {
           throw "Houve um erro ao tentar realizar o cadastro!";
+
         }
       })
       .catch(function (resposta) {
@@ -239,7 +325,7 @@
   //     });
   // }
 
-  // function sumirMensagem() {
-  //   cardErro.style.display = "none";
-  // }
+  function sumirMensagem() {
+    cardErro.style.display = "none";
+  }
 </script>

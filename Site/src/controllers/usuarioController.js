@@ -64,7 +64,17 @@ function cadastrar(req, res) {
                         "\nHouve um erro ao realizar o cadastro! Erro: ",
                         erro.sqlMessage
                     );
-                    res.status(500).json(erro.sqlMessage);
+                    
+                    //Aqui eu faço a validação de qual erro foi recebido para enviar
+                    //A mensagem de erro para o HTML exibir
+                    if (erro.code === 'ER_DUP_ENTRY') {
+                        res.status(409).json("E-mail já cadastrado!");
+                    } else {
+
+                       res.status(500).json(erro.sqlMessage);
+                    }
+                 
+
                 }
             );
     }
