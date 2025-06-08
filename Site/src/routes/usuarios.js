@@ -16,6 +16,10 @@ router.post("/autenticar", function (req, res) {
     usuarioController.autenticar(req, res);
 });
 
+router.post("/favoritar", function (req, res) {
+    usuarioController.favoritar(req, res);
+});
+
 router.get("/buscarSistemas", function (req, res) {
     
   usuarioController.buscarSistemas(req, res);
@@ -25,6 +29,8 @@ router.get("/irParaSistema", function (req, res) {
     
   usuarioController.irParaSistema(req, res);
 });
+
+
 
 
 

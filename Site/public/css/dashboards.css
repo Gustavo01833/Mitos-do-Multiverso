@@ -570,7 +570,7 @@ label a .logo{
   margin-top: 5px;
 
   margin-bottom: 5px;
-  font-size: 1rem;
+  font-size: 1.3rem;
   border-radius: 15px;
   background-color: black;
 }
@@ -580,10 +580,17 @@ label a .logo{
   width: 15%;
   /* background-color: #5c6bc0; */
 }
+#nomeSistema1{
+  display: flex;
+  justify-content: center;
+  width: 35%;
+  
+  /* background-color: #5c0ba9; */
+}
 #nomeSistema{
   display: flex;
   justify-content: center;
-  width: 100%;
+  /* width: 35%; */
   
   /* background-color: #5c0ba9; */
 }
@@ -598,6 +605,7 @@ label a .logo{
 }
 #status{
   width: 10%;
+  z-index: 1;
   /* background-color: aliceblue; */
 }
 .alinhaCard{

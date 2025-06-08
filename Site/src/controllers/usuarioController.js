@@ -152,12 +152,43 @@ function irParaSistema(req, res) {
     });
 }
 
+function favoritar(req, res){
+
+    const idSistema = req.body.idSistemaServer;
+    console.log('O ID Do sissssss', idSistema);
+
+    const favoritado = req.body.favoritadoServer;
+    const idUsuario = req.body.idUsuarioServer;
+
+
+    usuarioModel.favoritar( favoritado, idUsuario , idSistema)
+            .then(
+                
+                function (resultado) {
+
+                    res.json(resultado);
+                }
+                
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao realizar o cadastro! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    
+}
+
 
 module.exports = {
     autenticar,
     cadastrar,
     cadastrarTodosSistemas,
     buscarSistemas,
-    irParaSistema
+    irParaSistema,
+    favoritar
 
 }
