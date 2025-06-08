@@ -16,7 +16,8 @@ router.post("/autenticar", function (req, res) {
     usuarioController.autenticar(req, res);
 });
 
-router.get("/", function (req, res) {
+router.get("/buscarSistemas", function (req, res) {
+    const idUsuario = req.query.idUsuario;
   usuarioController.buscarSistemas(req, res);
 });
 

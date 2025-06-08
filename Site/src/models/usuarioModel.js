@@ -37,6 +37,7 @@ function cadastrarTodosSistemas(idUsuario) {
         WHERE NOT EXISTS (
         SELECT 1 FROM favorita f
         WHERE f.pkUsuario = ${idUsuario} AND f.pkSistemas = s.idSistemas);
+
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -45,10 +46,18 @@ function cadastrarTodosSistemas(idUsuario) {
 
 
 
-function buscarSistemas() {
+function buscarSistemas(idUsuario) {
+
+
+
+    console.log("ID do usuário recebido:", idUsuario);
+    
+    // var idUsuario = sessionStorage.ID_USUARIO;
     console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", idUsuario)
+    
     var instrucaoSql = `
-        select * from vw_usuarioFavoritaSistema where id = '${idUsuario}';
+        select * from vw_usuarioFavoritaSistema where id = ${idUsuario} order by Favoritado desc;
+
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

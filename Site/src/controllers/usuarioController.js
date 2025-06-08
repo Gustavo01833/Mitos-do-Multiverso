@@ -98,8 +98,15 @@ function cadastrarTodosSistemas(req, res) {
 
 
 function buscarSistemas(req, res) {
+
+    const idUsuario = req.query.idUsuario;
+    console.log("ID do usuário recebido:", req.query.idUsuario);
+
+    // var idUsuario = sessionStorage.ID_USUARIO;
+    // console.log('Session storage de ID USUARIO AQUI', idUsuario);
+
   usuarioModel
-    .buscarSalas()
+    .buscarSistemas(idUsuario)
     .then(function (resultado) {
       if (resultado.length > 0) {
         res.status(200).json(resultado);
@@ -110,14 +117,11 @@ function buscarSistemas(req, res) {
     .catch(function (erro) {
       console.log(erro);
       console.log(
-        "Houve um erro ao buscar salas.",
+        "Houve um erro ao buscar sistemas.",
         erro.sqlMessage
       );
       res.status(500).json(erro.sqlMessage);
     });
-}
-
-module.exports = {
 }
 
 

@@ -70,7 +70,7 @@
                 <div class="caderno">
 
                     <div class="topo_caderno">Sistemas</div>
-                    <div class="corpo_caderno">
+                    <div id="lista" class="corpo_caderno">
 
                         <div class="card_sistema">
                             <div class="alinhaCard" id="lancamento">Lançamento</div>
@@ -120,14 +120,17 @@
     //b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
     let proximaAtualizacao;
+
     window.onload = cadastrarTodosSistemas();
-    window.onload = buscarSistemas;
+    window.onload = buscarSistemas();
     
+
     
     function cadastrarTodosSistemas(idUsuarioVar){
-    
-    // console.log(sessionStorage)
+
     var idUsuarioVar = sessionStorage.ID_USUARIO
+    
+    console.log(sessionStorage)
 
     console.log('O ID DE USUARIO ESTÁ COMO', idUsuarioVar);
     // const idUsuario = sessionStorage.ID_USUARIO;
@@ -175,8 +178,13 @@
 
 
 
-    function buscarSistemas(){
-        fetch("/usuario", {
+    function buscarSistemas(idUsuarioVar){
+
+        var idUsuarioVar = sessionStorage.ID_USUARIO
+        
+        console.log('O ID DE USUARIO BUSCAR SISTEMA ESTÁ COMO', idUsuarioVar);
+
+        fetch(`/usuarios/buscarSistemas?idUsuario=${idUsuarioVar}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -185,30 +193,69 @@
             console.log("ESTOU NO THEN DO entrar()!")
 
             if (resposta.ok) {
+
+                
+                console.log(resposta);
                 return resposta.json().then (function (dados) {
 
                     // console.log(resposta);
-                    console.log("Dados recebidos listagem: ", JSON.stringify(resposta));
+                    // console.log("Dados recebidos listagem: ", JSON.stringify(resposta));
+                
 
+                    console.log()
+                    console.log("Dados recebidos listagem: ", dados);
                     // resposta = resposta.json()
+                    console.log(dados.length)
                     console.log('Estou exibindo a resposta ', resposta);
+                    console.log("Dados recebidos listagem: ", dados[0].nomeSistema);
+                    
 
                     for(var i = 0; i < dados.length; i++){
-                        console.log('MaximoJogadores:', dados[i.MaximoJogadores])
-                        console.log('nome:', dados[i.nome])
-                        console.log('frequencia:', dados[i.frequencia])
-                        console.log('sistema:', dados[i.sistema])
-                        console.log('visibilidade:', dados[i.visibilidade])
-
-                        document.getElementById('div_qtdUsuario').innerHTML += `<br><span>${dados[i].MaximoJogadores}</span>`;
-                        document.getElementById('div_nome').innerHTML += `<span>${dados[i].nome}</span>`;
-                        document.getElementById('div_freq').innerHTML += `<span>${dados[i].frequencia}</span>`;
-                        document.getElementById('div_sis').innerHTML += `<span>${dados[i].sistema}</span>`;
-                        document.getElementById('div_visi').innerHTML += `<span>${dados[i].visibilidade}</span>
-                        <br>`
                         
-                        ;
+                        console.log('idSistema', dados[i].idSistemas);
+                        console.log('Lançamento:', dados[i].anoLancamento)
+                        console.log('Nome do Sistema:', dados[i].nomeSistema)
+                        console.log('Dado Principal:', dados[i].dadoPrincipal)
+                        console.log('Temática:', dados[i].nomeTematica)
+                        console.log('Status:', dados[i].Favoritado)
+
+                        let idSistema = dados[i].idSistemas;
+                        let anoLancamento = dados[i].anoLancamento;
+                        let nomeSistema = dados[i].nomeSistema;
+                        let dadoPrincipal = dados[i].dadoPrincipal;
+                        let nomeTematica = dados[i].nomeTematica;
+                        let Favoritado = dados[i].Favoritado;
+                        
+
+                        
+                        if(Favoritado == 0 ){
+                            var estrela = '../assets/Icon-Mitos/favorito-vazio.png'
+                        }
+                        else{
+                            var estrela = '../assets/Icon-Mitos/favorito-preenchido.png'
+
+                        }
+                        // document.getElementById('div_qtdUsuario').innerHTML += `<br><span>${dados[i].MaximoJogadores}</span>`;
+                        // document.getElementById('div_nome').innerHTML += `<span>${dados[i].nome}</span>`;
+                        // document.getElementById('div_freq').innerHTML += `<span>${dados[i].frequencia}</span>`;
+                        // document.getElementById('div_sis').innerHTML += `<span>${dados[i].sistema}</span>`;
+                        // document.getElementById('div_visi').innerHTML += `<span>${dados[i].visibilidade}</span>
+                        // <br>`
+                    
+                        lista.innerHTML +=`
+                            <div class="card_sistema" onclick='irParaSistema(${idSistema})'>
+                                <div class="alinhaCard" id="lancamento">${anoLancamento}</div>
+                                <div class="alinhaCard" id="nomeSistema">${nomeSistema}</div>
+                                <div class="alinhaCard" id="dadoPrincipal">${dadoPrincipal}</div>
+                                <div class="alinhaCard" id="tematica">${nomeTematica}</div>
+                                <div class="alinhaCard" id="status">
+                                    <img class="estrela" src="${estrela}" alt="">
+                                </div>
+                            </div>
+                            `
+                            ;
                     }
+
                 });
             } else {
 
@@ -227,6 +274,55 @@
         return false;
 
     }
+
+
+    function irParaSistema(idSistema){
+
+        
+        
+        console.log('O ID DE SISTEMA ESTÁ ESTÁ COMO', idSistema);
+
+        fetch(`/usuarios/buscarSistemas?idUsuario=${idUsuarioVar}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+
+                
+                console.log(resposta);
+                return resposta.json().then (function (dados) {
+
+                    
+
+                   
+                    
+
+                });
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+
+
+    }
+
+
+
 
     function alterarTitulo(idAquario) {
         var tituloAquario = document.getElementById(`tituloAquario${idAquario}`)
