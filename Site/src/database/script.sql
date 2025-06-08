@@ -13,7 +13,7 @@ USE mitosMultiverso;
 CREATE TABLE IF NOT EXISTS usuario(
 	idUsuario int primary key auto_increment,
     senha varchar(45) not null,
-    email varchar(255) not null,
+    email varchar(255) not null unique,
     dataCriacao timestamp not null default current_timestamp  
 );
 
@@ -141,31 +141,6 @@ INSERT INTO sistemas (nome, lancamento, dadoPrincipal, historia, contexto, mecan
 
     SELECT * FROM sistemas;
     
-
-
-INSERT INTO favorita(pkUsuario, pkSistemas, favoritado) VALUES
-	(1,1, 0),
-	(1,2, 0),
-    (1,3, 1),
-	(1,4, 0),
-    (1,5, 1),
-    (1,6, 0),
-    
-    (2,1, 1),
-	(2,2, 1),
-	(2,3, 1),
-    (2,4, 1),
-	(2,5, 1),
-	(2,6, 1),
-
-
-	(3,1, 1),
-	(3,2, 0),
-	(3,3, 1),
-	(3,4, 1),
-	(3,5, 0),
-	(3,6, 1);
-    
 select * from favorita;
 
 
@@ -173,24 +148,41 @@ select * from favorita;
 BEGIN; -- Listagem de Sistemas
 
 
-
+show tables;
 CREATE VIEW vw_usuarioFavoritaSistema  as
-		SELECT u.idUsuario,
-			   sis.nome,
-			   fav.favoritado as Favoritado
+		SELECT u.idUsuario as id,
+				sis.idSistemas as idSistema,
+			   sis.nome as nomeSistema,
+               DATE_FORMAT(sis.lancamento, '%Y') as anoLancamento,
+               sis.dadoPrincipal as dadoPrincipal,
+               t.nome as nomeTematica,
+               sis.historia as historia,
+               sis.contexto as contexto,
+               sis.mecanicas as mecanicas,
+			   fav.favoritado as Favoritado,
+               fav.dataFavorito as dataFavorito
+               
 		from sistemas sis JOIN favorita fav
 		ON sis.idSistemas = fav.pkSistemas
+        JOIN tematica t
+        ON t.idTematica = sis.fkTematica
 		JOIN usuario u 
 		ON u.idUsuario = fav.pkUsuario;
 
+-- select * from vw_usuarioFavoritaSistema where id = 12 order by Favoritado desc, dataFavorito asc;
+-- select * from vw_usuarioFavoritaSistema where idSistema = 1 order by Favoritado desc limit 1;
+-- UPDATE favorita SET favoritado = 1 , dataFavorito = current_timestamp() where pkUsuario = 1 and pkSistemas = 1;
 
-select * from vw_usuarioFavoritaSistema;
+ -- select * from favorita;
+-- drop view vw_usuarioFavoritaSistema;
 
 CREATE VIEW vw_sistemas as
 	SELECT * FROM sistemas;
 
-SELECT * FROM vw_sistemas;
+	SELECT * FROM vw_sistemas;
 
+
+-- SET SQL_MODE= '';
 
 CREATE VIEW vw_porcentagemFavoritos as
 		SELECT
@@ -221,8 +213,7 @@ CREATE VIEW vw_porcentagemFavoritos as
 select * from vw_porcentagemFavoritos;
 
  create view vw_qtdCadastros6Mes as
-		
-SELECT
+		SELECT
 		CASE DATE_FORMAT(dataCriacao, '%m') -- Pega o mês da data para o case
 			WHEN '01' THEN 'Janeiro'
 			WHEN '02' THEN 'Fevereiro'
@@ -246,8 +237,44 @@ SELECT
 		ORDER BY ano, mes2; -- Ordenado pelo ano e pelo mês
         
 
-
 select max(cadastros) from vw_qtdCadastros6Mes;
 select * from vw_qtdCadastros6Mes;
+-- drop view vw_qtdCadastros6Mes;
 
+UPDATE favorita SET favoritado = 1 where pkUsuario = 1 and pkSistemas = 1;
+show tables;
 
+SELECT * FROM favorita;
+SELECT * FROM sistemas;
+SELECT * FROM tematica;
+SELECT * FROM usuario;
+
+/*
+INSERT INTO favorita (pkUsuario, pkSistemas, favoritado) 
+      SELECT 11, idSistemas, 0 FROM sistemas;
+*/
+
+SELECT 1 FROM favorita f WHERE
+	f.pkUsuario = 6 and f.pkSistemas = s.idSistemas;
+    
+SELECT 1, s.idSistemas, 0  -- O 1 está servindo apenas como um marcador/ sinalizador
+FROM sistemas s			   -- Ele não retorna dados em si, mas precisa que algo seja retornado
+WHERE NOT EXISTS (
+  SELECT 'id do usuario' FROM favorita f -- Aqui em baixo é o mesmo caso, tanto que substituí
+  WHERE f.pkUsuario = 10 AND f.pkSistemas = s.idSistemas -- Para um texto, pois o importante 
+														-- é as outras informações
+);
+/*
+INSERT INTO favorita (pkUsuario, pkSistemas, favoritado) -- Nesse caso é diferente
+SELECT 1, s.idSistemas, 0	-- Pois usamos o primeiro 1 para referenciar o id do usuário que queremos
+FROM sistemas s				-- que seja feita a inserção deixando a lógica do insert assim:
+WHERE NOT EXISTS (			-- Insira o id do usuário(no caso 1), o id de sistemas(qualquer sistema) e 0 como favoritado 
+  SELECT 1 FROM favorita f  -- Quando ao consultar todos os favoritos, não tenha nenhum registro com o id do usuário 
+  WHERE f.pkUsuario = 1 AND f.pkSistemas = s.idSistemas -- e o id do sistema, criando assim o registro de que
+); 							-- O usuário novo não possui nenhum sistema favoritado mas que ele pode favoritar
+
+*/
+select * from usuario;
+select * from favorita;
+
+-- select * from favorita where pkUsuario = 8;

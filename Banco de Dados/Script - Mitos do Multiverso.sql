@@ -134,31 +134,6 @@ INSERT INTO sistemas (nome, lancamento, dadoPrincipal, historia, contexto, mecan
 
     SELECT * FROM sistemas;
     
-
-
-INSERT INTO favorita(pkUsuario, pkSistemas, favoritado) VALUES
-	(1,1, 0),
-	(1,2, 0),
-    (1,3, 1),
-	(1,4, 0),
-    (1,5, 1),
-    (1,6, 0),
-    
-    (2,1, 1),
-	(2,2, 1),
-	(2,3, 1),
-    (2,4, 1),
-	(2,5, 1),
-	(2,6, 1),
-
-
-	(3,1, 1),
-	(3,2, 0),
-	(3,3, 1),
-	(3,4, 1),
-	(3,5, 0),
-	(3,6, 1);
-    
 select * from favorita;
 
 
@@ -169,40 +144,29 @@ BEGIN; -- Listagem de Sistemas
 show tables;
 CREATE VIEW vw_usuarioFavoritaSistema  as
 		SELECT u.idUsuario as id,
+				sis.idSistemas as idSistema,
 			   sis.nome as nomeSistema,
                DATE_FORMAT(sis.lancamento, '%Y') as anoLancamento,
                sis.dadoPrincipal as dadoPrincipal,
-               sis.historia as historia,
-               sis.contexto as contexto,
-               sis.mecanicas as mecanicas,
-               
-			   fav.favoritado as Favoritado
-		from sistemas sis JOIN favorita fav
-		ON sis.idSistemas = fav.pkSistemas
-		JOIN usuario u 
-		ON u.idUsuario = fav.pkUsuario;
-
-
-SELECT u.idUsuario as id,
-			   sis.nome as nomeSistema,
-               DATE_FORMAT(sis.lancamento, '%Y') as anoLancamento,
-               sis.dadoPrincipal as dadoPrincipal,
+               t.nome as nomeTematica,
                sis.historia as historia,
                sis.contexto as contexto,
                sis.mecanicas as mecanicas,
 			   fav.favoritado as Favoritado,
-               t.nome as nomeTematica
+               fav.dataFavorito as dataFavorito
+               
 		from sistemas sis JOIN favorita fav
 		ON sis.idSistemas = fav.pkSistemas
         JOIN tematica t
         ON t.idTematica = sis.fkTematica
-			
-            
 		JOIN usuario u 
 		ON u.idUsuario = fav.pkUsuario;
 
-(SELECT t.idTematica, t.nome from tematica)
-select * from vw_usuarioFavoritaSistema;
+-- select * from vw_usuarioFavoritaSistema where id = 12 order by Favoritado desc, dataFavorito asc;
+-- select * from vw_usuarioFavoritaSistema where idSistema = 1 order by Favoritado desc limit 1;
+-- UPDATE favorita SET favoritado = 1 , dataFavorito = current_timestamp() where pkUsuario = 1 and pkSistemas = 1;
+
+ -- select * from favorita;
 -- drop view vw_usuarioFavoritaSistema;
 
 CREATE VIEW vw_sistemas as
@@ -278,9 +242,11 @@ SELECT * FROM sistemas;
 SELECT * FROM tematica;
 SELECT * FROM usuario;
 
+/*
 INSERT INTO favorita (pkUsuario, pkSistemas, favoritado) 
       SELECT 11, idSistemas, 0 FROM sistemas;
-      
+*/
+
 SELECT 1 FROM favorita f WHERE
 	f.pkUsuario = 6 and f.pkSistemas = s.idSistemas;
     
@@ -291,14 +257,17 @@ WHERE NOT EXISTS (
   WHERE f.pkUsuario = 10 AND f.pkSistemas = s.idSistemas -- Para um texto, pois o importante 
 														-- é as outras informações
 );
-
+/*
 INSERT INTO favorita (pkUsuario, pkSistemas, favoritado) -- Nesse caso é diferente
 SELECT 1, s.idSistemas, 0	-- Pois usamos o primeiro 1 para referenciar o id do usuário que queremos
 FROM sistemas s				-- que seja feita a inserção deixando a lógica do insert assim:
 WHERE NOT EXISTS (			-- Insira o id do usuário(no caso 1), o id de sistemas(qualquer sistema) e 0 como favoritado 
   SELECT 1 FROM favorita f  -- Quando ao consultar todos os favoritos, não tenha nenhum registro com o id do usuário 
-  WHERE f.pkUsuario = ? AND f.pkSistemas = s.idSistemas -- e o id do sistema, criando assim o registro de que
+  WHERE f.pkUsuario = 1 AND f.pkSistemas = s.idSistemas -- e o id do sistema, criando assim o registro de que
 ); 							-- O usuário novo não possui nenhum sistema favoritado mas que ele pode favoritar
 
+*/
+select * from usuario;
+select * from favorita;
 
 select * from favorita where pkUsuario = 8;
