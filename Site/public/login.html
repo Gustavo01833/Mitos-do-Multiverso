@@ -82,7 +82,7 @@
                 <div class="corpo_caderno">
                         <div class="campo">
                         <span>E-mail:</span>
-                        <input id="email_input" type="text" placeholder="meuemail@provedor.com" />
+                        <input id="email_input" type="text" placeholder="meuEmail@provedor.com" />
                         </div>
                         <div class="campo">
                         <span>Senha:</span>
@@ -93,13 +93,8 @@
                     <div id="div_aguardar" class="loading-div">
                         <img src="./assets/circle-loading.gif" id="loading-gif" />
                     </div>
-                      <div id="div_erros_login">
-            
+                      
                   </div>
-              </div>
-
-       
-         
 
       </div>
     
@@ -124,7 +119,7 @@
 
 
     function entrar() {
-        aguardar();
+        
 
         var emailVar = email_input.value;
         var senhaVar = senha_input.value;
@@ -132,7 +127,7 @@
         if (emailVar == "" || senhaVar == "") {
             cardErro.style.display = "block"
             mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
-            finalizarAguardar();
+            
             return false;
         }
         else {
@@ -161,15 +156,6 @@
                     console.log(json);
                     console.log(JSON.stringify(json));
 
-                    // const usuario = {
-                    //   id: json.id, 
-                    //   email: json.email
-                    // };
-                    // sessionStorage.setItem('usuario', JSON.stringify(usuario));
-
-                    
-                    // sessionStorage.EMAIL_USUARIO = json.EMAIL_USUARIO;
-                    // sessionStorage.ID_USUARIO = json.ID_USUARIO;
 
                     sessionStorage.EMAIL_USUARIO = json[0].email;
                     sessionStorage.ID_USUARIO = json[0].idUsuario;
@@ -186,6 +172,10 @@
 
                 console.log("Houve um erro ao tentar realizar o login!");
 
+                cardErro.style.display = "block";
+                mensagem_erro.innerHTML =
+              `Email ou senha inválido`;
+            
                 resposta.text().then(texto => {
                     console.error(texto);
                     finalizarAguardar(texto);
@@ -194,6 +184,7 @@
 
         }).catch(function (erro) {
             console.log(erro);
+            
         })
 
         return false;
@@ -240,14 +231,14 @@
             "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
          // limparFormulario();
-         // finalizarAguardar();
+         
         } else {
           throw "Houve um erro ao tentar realizar o cadastro!";
         }
       })
       .catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
-        //finalizarAguardar();
+        
       });
 
     return false;

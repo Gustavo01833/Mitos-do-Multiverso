@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <link
+      rel="shortcut icon"
+      href="../assets/Icon-Mitos/Logo PNG - Mitos do Multiverso.png"
+      type="image/x-icon"
+    />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mitos do Multiverso | Dashboard</title>
+
+    <link rel="stylesheet" href="./../css/dashboards.css" />
+    <link rel="stylesheet" href="./../css/estilo.css" />
+    <script src="../js/sessao.js"></script>
+    <script src="./../js/alerta.js"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- scripts do Chart.js - 2022-1 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!--FONT AWESOME-->
+    <script
+      src="https://kit.fontawesome.com/9f7414eb10.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <!-- <body onload=" atualizarFeed()"> -->
+
+  <body>
+    <div class="janela">
+      <div class="header-left">
+        <div id="titulo">
+          <h1>Mitos</h1>
+          <h1>do</h1>
+          <h1>Multiverso</h1>
+        </div>
+        <label id="label_logo" for="imagem_logo">
+          <a href="./listagem.html">
+            <img
+              id="imagem_logo"
+              class="logo"
+              s
+              src="../assets/Icon-Mitos/Group 9.png"
+              alt=""
+            />
+          </a>
+        </label>
+
+        <div class="btn-nav-white">
+          <a class="header_img" href="../dashboard/listagem.html">
+            <img
+              src="../assets/imgs-Mitos/Mitos do Multiverso - Botões/placa-inicio-header.png"
+              alt=""
+            />
+          </a>
+
+          <a class="header_img" href="../dashboard/dashboard.html">
+            <img
+              src="../assets/imgs-Mitos/Mitos do Multiverso - Botões/placa dashboard.png"
+              alt=""
+            />
+          </a>
+        </div>
+
+        <div class="btn-logout" onclick="limparSessao()">
+          <img
+            src="../assets/imgs-Mitos/Mitos do Multiverso - Botões/placa logout.png"
+            alt=""
+          />
+        </div>
+      </div>
+
+      <div class="dash">
+        <div class="div_centraliza">
+          <div class="dash2">
+            <div class="kpis">
+              <div class="kpi">
+                <span>Pessoas Cadastradas</span>
+                <span class="info" id="pessoasCadastradas">100</span>
+              </div>
+
+              <div class="kpi">
+                <span>Pessoas Cadastradas no Mês</span>
+
+                <span class="info" id="pessoasCadastradasMes">20</span>
+              </div>
+              <div class="kpi">
+                <span>Sistema Mais Favoritado</span>
+                <span class="info" id="sistemaMaisFavoritado">D&D 5E</span>
+              </div>
+            </div>
+
+            <div class="graficos">
+              <div id="graficoBarras">
+                <canvas id="graficoBarrasCanvas"> </canvas>
+              </div>
+              <div id="graficoPizza">
+                <canvas id="graficoPizzaCanvas"> </canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  // b_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+  let proximaAtualizacaoBarra;
+  let proximaAtualizacaoPizza;
+
+  obterDadosGraficoBarras();
+  obterDadosGraficoPizza(); // criarGraficoPizza();
+  atualizarInformacoes();
+
+  function atualizarInformacoes() {
+    let pessoasCadastradasInput = document.getElementById(`pessoasCadastradas`);
+
+    fetch(`/dashboard/pessoasCadastradasTodas`)
+      .then(function (response) {
+        if (response.ok) {
+          response.json().then(function (resposta) {
+            console.log("Resposta aqui", resposta);
+            let qtdUsuarios = resposta[0].qtdUsuarios;
+            pessoasCadastradasInput.innerHTML = qtdUsuarios;
+          });
+        }
+      })
+      .catch(function (error) {
+        console.error(
+          `Erro na obtenção dos dados p/ gráfico: ${error.message}`
+        );
+      });
+  }
+
+  /* Graficos*/
+  function obterDadosGraficoBarras() {
+    if (proximaAtualizacaoBarra != undefined) {
+      clearTimeout(proximaAtualizacaoBarra);
+    }
+
+    fetch(`/dashboard/pessoasCadastradas`)
+      .then(function (response) {
+        if (response.ok) {
+          response.json().then(function (resposta) {
+            console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+            // resposta.reverse();
+
+            plotarGraficoBarras(resposta);
+          });
+        } else {
+          console.error("Nenhum dado encontrado ou erro na API");
+        }
+      })
+      .catch(function (error) {
+        console.error(
+          `Erro na obtenção dos dados p/ gráfico: ${error.message}`
+        );
+      });
+  }
+
+  function pegarUltimos6Meses() {
+    const mesesNomes = [
+      "Janeiro",
+      "Fevereiro",
+      "Março",
+      "Abril",
+      "Maio",
+      "Junho",
+      "Julho",
+      "Agosto",
+      "Setembro",
+      "Outubro",
+      "Novembro",
+      "Dezembro",
+    ];
+
+    const agora = new Date();
+    const mesesArray = [];
+
+    // Loop para pegar os últimos 6 meses (incluindo o atual)
+    for (let i = 5; i >= 0; i--) {
+      // Começa pegando o mês atual -5
+      const data = new Date(agora);
+      data.setMonth(data.getMonth() - i); // retorna um valor de 0 a 11
+      const nomeDoMes = mesesNomes[data.getMonth()]; // utiliza o número retornado como índice de mesesNomes
+      mesesArray.push(nomeDoMes); // pusha o nome do mês com o indice passado
+    }
+
+    // console.log(mesesArray);
+    return mesesArray;
+  }
+
+  function plotarGraficoBarras(resposta) {
+    console.log("iniciando plotagem do gráfico...");
+    // console.log(resposta);
+
+    const meses = {
+      January: "Janeiro",
+      February: "Fevereiro",
+      March: "Março",
+      April: "Abril",
+      May: "Maio",
+      June: "Junho",
+      July: "Julho",
+      August: "Agosto",
+      September: "Setembro",
+      October: "Outubro",
+      November: "Novembro",
+      December: "Dezembro",
+    };
+    // console.log(pegarUltimos6Meses())
+    // Criando estrutura para plotar gráfico - labels
+    let labels = pegarUltimos6Meses();
+
+    let pessoasCadastradasMesInput = document.getElementById(
+      `pessoasCadastradasMes`
+    );
+
+    //at() pega qualquer posição do array, porém passando -1 ele pega o último valor
+    pessoasCadastradasMesInput.innerHTML = resposta.at(-1).cadastros;
+
+    let dataDados = [];
+
+    for (var i = 0; i < resposta.length; i++) {
+      //   console.log(resposta[i]);
+      //resposta[i].mes2
+
+      labels.forEach((item) => {
+        if (meses[resposta[i].mes] == item) {
+          console.log(resposta[i].cadastros);
+          dataDados.push(resposta[i].cadastros);
+        }
+      });
+    }
+    console.log("DADOS", dataDados);
+    console.log(dataDados.length);
+    // Criando estrutura para plotar gráfico - dados
+    let dados = {
+      labels: labels,
+      datasets: [
+        {
+          label: "Cadastros",
+          data: dataDados,
+          fill: false,
+          backgroundColor: "#ffb703",
+
+          borderColor: "rgba(0,0,0)", // Cor da borda das barras
+          borderWidth: 1,
+          tension: 0.1,
+        },
+      ],
+    };
+
+    console.log("----------------------------------------------");
+    console.log(
+      'Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":'
+    );
+    console.log(resposta);
+
+    // Inserindo valores recebidos em estrutura para plotar o gráfico
+    for (i = 0; i < resposta.length; i++) {
+      var registro = resposta[i];
+      // labels.push(registro.momento_grafico);
+      dados.datasets[0].data.push(registro.umidade);
+    }
+
+    console.log("----------------------------------------------");
+    console.log("O gráfico será plotado com os respectivos valores:");
+    console.log("Labels:");
+    console.log(labels);
+    console.log("Dados:");
+    console.log(dados.datasets);
+    console.log("----------------------------------------------");
+
+    // Criando estrutura para plotar gráfico - config
+    const config = {
+      type: "bar",
+      data: dados,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            labels: {
+              color: "#000",
+            },
+          },
+          title: {
+            display: true,
+            text: "Cadastros Recentes",
+            color: "#000",
+            font: {
+              size: 18,
+            },
+          },
+        },
+        scales: {
+          x: {
+            ticks: {
+              color: "#000",
+            },
+            title: {
+              display: true,
+              text: "Meses",
+              color: "#000",
+            },
+          },
+          y: {
+            ticks: {
+              color: "#000",
+            },
+            title: {
+              display: true,
+              text: "Quantidade de Usuários",
+              color: "#000",
+            },
+          },
+        },
+      },
+    };
+
+    // Adicionando gráfico criado em div na tela
+    let myChart = new Chart(
+      document.getElementById(`graficoBarrasCanvas`),
+      config
+    );
+
+    // setTimeout(() => atualizarGraficoBarras(dados, myChart), 2000);
+  }
+
+  /*
+
+        GRÁFICO 2
+
+    */
+
+  function obterDadosGraficoPizza() {
+    let sistemaMaisFavoritadoInput = document.getElementById(
+      `sistemaMaisFavoritado`
+    );
+
+    fetch(`/dashboard/sistemasMaisFavoritados`)
+      .then(function (response) {
+        if (response.ok) {
+          response.json().then(function (resposta) {
+            console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+
+            let maisFavoritado = "";
+            let valorMaisFavoritado = 0;
+
+            for (let item of resposta) {
+              if (
+                item.porcentagem_uso > valorMaisFavoritado &&
+                item.sistema != "Outros"
+              ) {
+                maisFavoritado = item.sistema;
+              }
+            }
+
+            sistemaMaisFavoritadoInput.innerHTML = maisFavoritado;
+
+            plotarGraficoPizza(resposta);
+          });
+        } else {
+          console.error("Nenhum dado encontrado ou erro na API");
+        }
+      })
+      .catch(function (error) {
+        console.error(
+          `Erro na obtenção dos dados p/ gráfico: ${error.message}`
+        );
+      });
+  }
+
+  function plotarGraficoPizza(resposta) {
+    console.log("iniciando plotagem do gráfico...");
+    console.log(resposta);
+
+    let dataDadosSistema = [];
+    let dataDadosUso = [];
+
+    for (var i = 0; i < resposta.length; i++) {
+      dataDadosSistema.push(resposta[i].sistema);
+
+      dataDadosUso.push(resposta[i].porcentagem_uso);
+    }
+    // console.log("DATADADOS SISTEMAS", dataDadosSistema);
+    // console.log("DADOS USO", dataDadosUso);
+
+    // Criando estrutura para plotar gráfico - dados
+    let dados = {
+      labels: dataDadosSistema,
+      datasets: [
+        {
+          label: "Favoritos",
+          data: dataDadosUso,
+          fill: false,
+          backgroundColor: [
+            "#8ecae6",
+            "#219ebc",
+            "#023047",
+            "#ffb703",
+            "#fb8500",
+          ], // Cor do fundo das barras
+          borderColor: "rgba(0, 0,0 )", // Cor da borda das barras
+          borderWidth: 1,
+          tension: 0.1,
+        },
+      ],
+    };
+
+    console.log("----------------------------------------------");
+    console.log(
+      'Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "plotarGrafico":'
+    );
+    console.log(resposta);
+
+    // Inserindo valores recebidos em estrutura para plotar o gráfico
+    for (i = 0; i < resposta.length; i++) {
+      var registro = resposta[i];
+      // labels.push(registro.momento_grafico);
+      dados.datasets[0].data.push(registro.umidade);
+    }
+
+    console.log("----------------------------------------------");
+    console.log("O gráfico será plotado com os respectivos valores:");
+    console.log("Labels:");
+    // console.log(labels);
+    console.log("Dados:");
+    console.log(dados.datasets);
+    console.log("----------------------------------------------");
+
+    // Criando estrutura para plotar gráfico - config
+    const config = {
+      type: "pie",
+      data: dados,
+      options: {
+        plugins: {
+          legend: {
+            labels: {
+              color: "#000000", 
+              font: {
+                weight: "bold", 
+              },
+            },
+          },
+          title: {
+            display: true,
+            text: "Sistemas Favoritados",
+            color: "#000000", 
+            font: {
+              size: 18,
+            },
+          },
+        },
+      },
+    };
+
+    // Adicionando gráfico criado em div na tela
+    let myChart = new Chart(
+      document.getElementById(`graficoPizzaCanvas`),
+      config
+    );
+  }
+</script>

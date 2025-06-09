@@ -126,7 +126,7 @@
     function buscarSistemas(idUsuarioVar){
 
         lista.innerHTML = `
-             <div class="card_sistema">
+             <div class="card_sistema ">
                             <div class="alinhaCard" id="lancamento">Lançamento</div>
                             <div class="alinhaCard" id="nomeSistema1">Nome do Sistema</div>
                             <div class="alinhaCard" id="dadoPrincipal"><span>Dado</span> <span>Principal</span></div>
@@ -197,7 +197,7 @@
                         // <br>`
                     
                         lista.innerHTML +=`
-                            <div class="card_sistema"  >
+                            <div class="card_sistema clicavel"  >
                                 <div class="alinhaCard" onclick='irParaSistema(${idSistema})' id="lancamento">${anoLancamento}</div>
 
                                 <div class="alinhaCard" onclick='irParaSistema(${idSistema})'id="nomeSistema1"> ${nomeSistema}</div>
@@ -207,7 +207,7 @@
                                 <div class="alinhaCard" onclick='irParaSistema(${idSistema})'id="tematica">${nomeTematica}</div>
 
                                 <div class="alinhaCard" onclick='favoritar(${idSistema},${Favoritado})' id="status">
-                                    <img class="estrela" src="${estrela}" alt="">
+                                    <img class="estrela brilhando" src="${estrela}" alt="">
                                 </div>
                             </div>
                             `
@@ -325,15 +325,13 @@
                 console.log(idUsuarioVar);
                 buscarSistemas(idUsuarioVar);
 
-            // limparFormulario();
-            // finalizarAguardar();
             } else {
             throw "Houve um erro ao tentar realizar o cadastro!";
             }
         })
         .catch(function (resposta) {
             console.log(`#ERRO: ${resposta}`);
-            //finalizarAguardar();
+            
         });
 
         return false;

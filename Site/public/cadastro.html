@@ -86,7 +86,7 @@
             
             <div class="campo">
               <span>E-mail:</span>
-              <input id="email_input" type="text" placeholder="meuemail@provedor.com" />
+              <input id="email_input" type="text" placeholder="meuEmail@provedor.com" />
             </div>
             <div class="campo">
               <span>Senha:</span>
@@ -148,7 +148,7 @@
       mensagem_erro.innerHTML =
         "(Preencha todos os campos)";
 
-      finalizarAguardar();
+      
       return false;
     }
     else if(
@@ -163,7 +163,7 @@
       mensagem_erro.innerHTML =
         "(E-mail inválido)";
       
-      finalizarAguardar();
+      
       return false;
 
     }
@@ -173,7 +173,7 @@
       mensagem_erro.innerHTML =
         "(A senha e a confirmação da senha devem ser iguais)";
       
-      finalizarAguardar();
+      
       return false;
     }
     else if(
@@ -199,7 +199,7 @@
       mensagem_erro.innerHTML =
         "(A senha deve conter pelo menos 8 caracteres, uma letra maiúscula e minúscula, um número e um caractere especial)";
       
-      finalizarAguardar();
+      
       return false;
 
 
@@ -235,15 +235,13 @@
             window.location = "login.html";
           }, "2000");
 
-         // limparFormulario();
-         // finalizarAguardar();
         } else {
 
           return resposta.text().then(function (mensagemErro) { // Pegamos a mensagem de erro que foi passada e lemos ela como um texto/String
           
           cardErro.style.display = "block";
           mensagem_erro.innerHTML = mensagemErro;
-          finalizarAguardar();
+          
           throw "Houve um erro ao tentar realizar o cadastro!";// Interrompe a execução, então tem que vir por último
 
         });
@@ -252,7 +250,7 @@
       })
       .catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
-        finalizarAguardar();
+        
       });
 
     return false;
@@ -287,8 +285,6 @@
           //mensagem_erro.innerHTML =
             "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
 
-         // limparFormulario();
-         // finalizarAguardar();
         } else {
           throw "Houve um erro ao tentar realizar o cadastro!";
 
@@ -296,7 +292,7 @@
       })
       .catch(function (resposta) {
         console.log(`#ERRO: ${resposta}`);
-        //finalizarAguardar();
+        
       });
 
     return false;

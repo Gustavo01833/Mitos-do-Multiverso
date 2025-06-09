@@ -24,7 +24,9 @@ function autenticar(req, res) {
                     } else if (resultadoAutenticar.length != 1){
                         res.status(403).send("Mais de um usuário com o mesmo login e senha!");
                     }
-                    res.status(200).json(resultadoAutenticar);
+                    else{
+                        res.status(200).json(resultadoAutenticar);
+                    }
                                 
                 }
             ).catch(
