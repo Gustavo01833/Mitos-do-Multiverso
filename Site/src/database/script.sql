@@ -7,7 +7,7 @@ comandos para mysql server
 */
 CREATE DATABASE IF NOT exists mitosMultiverso;
 USE mitosMultiverso;
-
+SET lc_time_names = 'pt_BR';
 -- drop database mitosMultiverso;
 
 CREATE TABLE IF NOT EXISTS usuario(
@@ -59,6 +59,15 @@ INSERT INTO usuario (senha, email, dataCriacao) VALUES
 	( '123456', 'minhoca@gmail.com', '2025-04-03'),
     ('123456', 'clideiro@gmail.com', '2025-04-03'),
 	( '123456', 'math@gmail.com', '2025-04-03');
+
+INSERT INTO usuario (senha, email, dataCriacao) VALUES
+	( '123456', 'usuario@gmail.com', '2025-06-29'),
+	( '123456', 'geronimo@gmail.com', '2025-05-03'),
+    ( '123456', 'vitu@gmail.com', '2025-04-03'), 
+	( '123456', 'martelo@gmail.com', '2024-04-29'),
+	( '123456', 'ralph@gmail.com', '2025-02-03'),
+    ('123456', 'bergamota@gmail.com', '2025-01-03'),
+	( '123456', 'wil@gmail.com', '2025-03-03');
 
 
 	SELECT * FROM usuario;
@@ -211,22 +220,22 @@ CREATE VIEW vw_porcentagemFavoritos as
 		ORDER BY porcentagem_uso desc, sistema;
 
 select * from vw_porcentagemFavoritos;
-
+/*
  create view vw_qtdCadastros6Mes as
 		SELECT
 		CASE DATE_FORMAT(dataCriacao, '%m') -- Pega o mês da data para o case
-			WHEN '01' THEN 'Janeiro'
+			WHEN '01' THEN 'Janeiro' 
 			WHEN '02' THEN 'Fevereiro'
-			WHEN '03' THEN 'Março'
-			WHEN '04' THEN 'Abril'
-			WHEN '05' THEN 'Maio'
-			WHEN '06' THEN 'Junho'
-			WHEN '07' THEN 'Julho'
-			WHEN '08' THEN 'Agosto'
+			WHEN '03' THEN 'Março' 
+			WHEN '04' THEN 'Abril' 
+			WHEN '05' THEN 'Maio' 
+			WHEN '06' THEN 'Junho' 
+			WHEN '07' THEN 'Julho' 
+			WHEN '08' THEN 'Agosto' 
 			WHEN '09' THEN 'Setembro'
-			WHEN '10' THEN 'Outubro'
-			WHEN '11' THEN 'Novembro'
-			WHEN '12' THEN 'Dezembro'
+			WHEN '10' THEN 'Outubro' 
+			WHEN '11' THEN 'Novembro' 
+			WHEN '12' THEN 'Dezembro' 
 		  END AS mes,
 		  DATE_FORMAT(dataCriacao, '%Y') ano, -- Pega o ano da data
           DATE_FORMAT(dataCriacao, '%m') mes2, -- Pega o mes da data para conseguir ordenar
@@ -235,10 +244,25 @@ select * from vw_porcentagemFavoritos;
 		WHERE dataCriacao >= DATE_SUB(CURRENT_DATE(), interval 5 month) -- DATE SUB SERVE PARA FAZER SUBTRAÇÃO EM DATAS
 		GROUP BY ano, mes, mes2
 		ORDER BY ano, mes2; -- Ordenado pelo ano e pelo mês
+	*/
         
+create view vw_qtdCadastros6Mes as  
+		SELECT
+			DATE_FORMAT(dataCriacao, '%M') AS mes, -- Pega o nome do mês
+			DATE_FORMAT(dataCriacao, '%Y') ano, -- Pega o ano da data
+			DATE_FORMAT(dataCriacao, '%m') mes2, -- Pega o mes da data para conseguir ordenar
+			ifnull(COUNT(idUsuario), 0) AS cadastros
+		FROM usuario
+		WHERE dataCriacao >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+		GROUP BY ano, mes, mes2
+		ORDER BY ano, mes2;
+
 
 select max(cadastros) from vw_qtdCadastros6Mes;
 select * from vw_qtdCadastros6Mes;
+
+
+	select count(idUsuario) from usuario;
 -- drop view vw_qtdCadastros6Mes;
 
 UPDATE favorita SET favoritado = 1 where pkUsuario = 1 and pkSistemas = 1;
@@ -277,4 +301,4 @@ WHERE NOT EXISTS (			-- Insira o id do usuário(no caso 1), o id de sistemas(qua
 select * from usuario;
 select * from favorita;
 
--- select * from favorita where pkUsuario = 8;
+select * from favorita where pkUsuario = 8;
