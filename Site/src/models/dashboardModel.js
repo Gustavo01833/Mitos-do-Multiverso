@@ -35,8 +35,22 @@ function cadastros6meses() {
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
-    
+
 }
+function todosCadastros(){
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():");
+    
+    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
+    //  e na ordem de inserção dos dados.
+
+    var instrucaoSql = `
+       select count(idUsuario) as qtdUsuarios from usuario;
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+}
+
 
 
 
@@ -44,5 +58,6 @@ function cadastros6meses() {
 module.exports = {
     autenticar,
     sistemasMaisFavoritados,
-    cadastros6meses
+    cadastros6meses,
+    todosCadastros
 };

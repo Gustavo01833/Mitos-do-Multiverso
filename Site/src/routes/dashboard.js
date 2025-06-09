@@ -9,20 +9,17 @@ var dashboardController = require("../controllers/dashboardController");
 // })
 
 router.get("/buscarSistemas", function (req, res) {
-    
   dashboardController.buscarSistemas(req, res);
 });
 
 router.get("/pessoasCadastradas", function (req, res) {
-    
   dashboardController.pegarCadastros6meses(req, res);
 });
-
+router.get("/pessoasCadastradasTodas", function (req, res) {
+  dashboardController.pegarTodosCadastros(req, res);
+});
 router.get("/sistemasMaisFavoritados", function (req, res) {
-    
   dashboardController.pegarSistemasMaisFavoritados(req, res);
 });
-
-
 
 module.exports = router;
