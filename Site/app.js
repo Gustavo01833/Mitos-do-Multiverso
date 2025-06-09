@@ -21,7 +21,7 @@ var aquariosRouter = require("./src/routes/aquarios1");
 var empresasRouter = require("./src/routes/empresas");
 
 var sistemasRouter = require("./src/routes/sistemas");
-
+var dashboardRouter = require("./src/routes/dashboard")
 
 var app = express();
 
@@ -46,7 +46,9 @@ app.use("/medidas", medidasRouter);
 app.use("/aquarios", aquariosRouter);
 app.use("/empresas", empresasRouter);
 
-app.use("/sistemas", sistemasRouter)
+app.use("/sistemas", sistemasRouter);
+app.use("/dashboard", dashboardRouter);
+
 
 app.listen(PORTA_APP, function () {
     console.log(`
